@@ -10,11 +10,7 @@
     "strict": true,
     // Allow default imports.
     "esModuleInterop": true,
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     // Wasp needs the following settings enable IDE support in your source
     // files. Editing them might break features like import autocompletion and
@@ -25,9 +21,7 @@
     "baseUrl": "../../.wasp/out/web-app/",
     "paths": {
       // Resolve all "@wasp" imports to the generated source code.
-      "@wasp/*": [
-        "src/*"
-      ],
+      "@wasp/*": ["src/*"],
       // Resolve all non-relative imports to the correct node module. Source:
       // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
       "*": [
@@ -40,16 +34,12 @@
       ]
     },
     // Correctly resolve types: https://www.typescriptlang.org/tsconfig#typeRoots
-    "typeRoots": [
-      "../../.wasp/out/web-app/node_modules/@types"
-    ],
+    "typeRoots": ["../../.wasp/out/web-app/node_modules/@types"],
     // Since this TS config is used only for IDE support and not for
     // compilation, the following directory doesn't exist. We need to specify
     // it to prevent this error:
     // https://stackoverflow.com/questions/42609768/typescript-error-cannot-write-file-because-it-would-overwrite-input-file
     "outDir": "phantom"
   },
-  "exclude": [
-    "phantom"
-  ],
+  "exclude": ["phantom"]
 }

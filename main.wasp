@@ -12,12 +12,54 @@ app wasp {
   }
 }
 
+// start: entities
 entity User {=psl
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
+  id        Int         @id @default(autoincrement())
+  username  String      @unique
+  password  String
+  lists     ItemsList[]
 psl=}
 
+entity ItemsList {=psl
+  id      Int         @id @default(autoincrement())
+  name    String      @unique
+  items   ListItem[]
+  state   String
+
+  user    User        @relation(fields: [userId], references: [id])
+  userId  Int
+psl=}
+
+entity ListItem {=psl
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  isDone      Boolean
+
+  item        Item      @relation("ListItemItemRelation", fields: [itemId], references: [id])
+  itemId      Int
+  itemsList   ItemsList @relation(fields: [itemsListId], references: [id])
+  itemsListId Int
+psl=}
+
+entity Item {=psl
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  note        String
+  image       String
+
+  category    Category    @relation("ItemCategoryRelation", fields: [categoryId], references: [id])
+  categoryId  Int
+  listItems   ListItem[]  @relation("ListItemItemRelation")
+psl=}
+
+entity Category {=psl
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  items Item[]  @relation("ItemCategoryRelation")
+psl=}
+// end: entities
+
+// start: routes
 route RootRoute {
   path: "/",
   to: MainPage
@@ -42,3 +84,4 @@ route LoginRoute {
 page LoginPage {
   component: import Login from "@client/LoginPage.tsx"
 }
+// end: routes

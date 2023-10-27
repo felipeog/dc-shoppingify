@@ -1,0 +1,11 @@
+app wasp {
+  wasp: {
+    version: "^0.11.7"
+  },
+  title: "Shoppingify"
+}
+
+route RootRoute { path: "/", to: MainPage }
+page MainPage {
+  component: import Main from "@client/MainPage.jsx"
+}

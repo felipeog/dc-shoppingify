@@ -100,4 +100,40 @@ route LoginRoute {
 page LoginPage {
   component: import { LoginPage } from "@client/LoginPage.tsx"
 }
+
+route DebugItemsListRoute {
+  path: "/debug/items-list",
+  to: DebugItemsListPage
+}
+page DebugItemsListPage {
+  authRequired: true,
+  component: import { DebugItemsListPage } from "@client/debug/DebugItemsListPage.tsx"
+}
+
+route DebugListItemRoute {
+  path: "/debug/list-item",
+  to: DebugListItemPage
+}
+page DebugListItemPage {
+  authRequired: true,
+  component: import { DebugListItemPage } from "@client/debug/DebugListItemPage.tsx"
+}
+
+route DebugItemRoute {
+  path: "/debug/item",
+  to: DebugItemPage
+}
+page DebugItemPage {
+  authRequired: true,
+  component: import { DebugItemPage } from "@client/debug/DebugItemPage.tsx"
+}
+
+route DebugCategoryRoute {
+  path: "/debug/category",
+  to: DebugCategoryPage
+}
+page DebugCategoryPage {
+  authRequired: true,
+  component: import { DebugCategoryPage } from "@client/debug/DebugCategoryPage.tsx"
+}
 // end: routes

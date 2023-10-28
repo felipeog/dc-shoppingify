@@ -25,7 +25,6 @@ entity ItemsList {=psl
   name    String      @unique
   items   ListItem[]
   state   String
-
   user    User        @relation(fields: [userId], references: [id])
   userId  Int
 psl=}
@@ -34,8 +33,7 @@ entity ListItem {=psl
   id          Int       @id @default(autoincrement())
   name        String    @unique
   isDone      Boolean
-
-  item        Item      @relation("ListItemItemRelation", fields: [itemId], references: [id])
+  item        Item      @relation(fields: [itemId], references: [id])
   itemId      Int
   itemsList   ItemsList @relation(fields: [itemsListId], references: [id])
   itemsListId Int
@@ -46,16 +44,15 @@ entity Item {=psl
   name        String      @unique
   note        String
   image       String
-
-  category    Category    @relation("ItemCategoryRelation", fields: [categoryId], references: [id])
+  listItems   ListItem[]
+  category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  listItems   ListItem[]  @relation("ListItemItemRelation")
 psl=}
 
 entity Category {=psl
   id    Int     @id @default(autoincrement())
   name  String  @unique
-  items Item[]  @relation("ItemCategoryRelation")
+  items Item[]
 psl=}
 // end: entities
 

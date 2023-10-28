@@ -1,5 +1,5 @@
-import { GetCategories } from "@wasp/queries/types";
-import { Category } from "@wasp/entities";
+import { GetCategories, GetItems } from "@wasp/queries/types";
+import { Category, Item } from "@wasp/entities";
 
 export const getCategories: GetCategories<void, Category[]> = async (
   _args,
@@ -10,4 +10,12 @@ export const getCategories: GetCategories<void, Category[]> = async (
   });
 
   return categories;
+};
+
+export const getItems: GetItems<void, Item[]> = async (_args, context) => {
+  const items = await context.entities.Item.findMany({
+    orderBy: { id: "asc" },
+  });
+
+  return items;
 };

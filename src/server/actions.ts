@@ -2,6 +2,7 @@ import {
   CreateCategory,
   CreateItem,
   DeleteCategory,
+  DeleteItem,
 } from "@wasp/actions/types";
 import HttpError from "@wasp/core/HttpError.js";
 import { Category, Item } from "@wasp/entities";
@@ -29,10 +30,7 @@ export const deleteCategory: DeleteCategory<
   });
 
   if (itemsInCategory.length) {
-    throw new HttpError(
-      400,
-      "This category is in use and it can't be deleted."
-    );
+    throw new HttpError(400, "This category is in use, it can't be deleted.");
   }
 
   const deletedCategory = await context.entities.Category.delete({
@@ -56,4 +54,24 @@ export const createItem: CreateItem<
   });
 
   return createdItem;
+};
+
+export const deleteItem: DeleteItem<Pick<Item, "id">, Item> = async (
+  args,
+  context
+) => {
+  const listItemsinItem = await context.entities.ListItem.findMany({
+    select: { id: true },
+    where: { itemId: { equals: args.id } },
+  });
+
+  if (listItemsinItem.length) {
+    throw new HttpError(400, "This item is in use, it can't be deleted.");
+  }
+
+  const deletedItem = await context.entities.Item.delete({
+    where: { id: args.id },
+  });
+
+  return deletedItem;
 };

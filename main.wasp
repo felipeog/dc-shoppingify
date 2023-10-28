@@ -83,6 +83,11 @@ action createItem {
   fn: import { createItem } from "@server/actions.js",
   entities: [Item]
 }
+
+action deleteItem {
+  fn: import { deleteItem } from "@server/actions.js",
+  entities: [Item, ListItem]
+}
 // end: actions
 
 // start: routes

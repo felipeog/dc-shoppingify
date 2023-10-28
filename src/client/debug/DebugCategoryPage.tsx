@@ -4,6 +4,7 @@ import { useQuery } from "@wasp/queries";
 import createCategory from "@wasp/actions/createCategory";
 import deleteCategory from "@wasp/actions/deleteCategory";
 import getCategories from "@wasp/queries/getCategories";
+import { Layout } from "./Layout";
 
 function CategoryItem({ category }: { category: Category }) {
   async function handleClick() {
@@ -65,18 +66,16 @@ export function DebugCategoryPage() {
   const { data: categories, isLoading, error } = useQuery(getCategories);
 
   return (
-    <div className="container">
-      <main>
-        <div>
-          {categories && <CategoriesList categories={categories} />}
-          {isLoading && "Loading..."}
-          {error && "Error: " + error}
-        </div>
+    <Layout>
+      <h1>Category</h1>
 
-        <div>
-          <CategoryForm />
-        </div>
-      </main>
-    </div>
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>Error: {error.message}</p>}
+
+      {categories && <CategoriesList categories={categories} />}
+
+      <CategoryForm />
+    </Layout>
   );
 }

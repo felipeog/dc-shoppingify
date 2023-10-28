@@ -1,26 +1,11 @@
-import { Link } from "@wasp/router";
+import { Layout } from "./Layout";
 
 export function DebugPage() {
   return (
-    <main>
+    <Layout>
       <h1>Debug</h1>
 
-      <nav>
-        <ul>
-          <li>
-            <Link to="/debug/category">Category</Link>
-          </li>
-          <li>
-            <Link to="/debug/item">Item</Link>
-          </li>
-          <li>
-            <Link to="/debug/items-list">ItemsList</Link>
-          </li>
-          <li>
-            <Link to="/debug/list-item">ListItem</Link>
-          </li>
-        </ul>
-      </nav>
-    </main>
+      <p>Entities debugging</p>
+    </Layout>
   );
 }

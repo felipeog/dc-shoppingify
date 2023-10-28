@@ -5,8 +5,9 @@ import createItem from "@wasp/actions/createItem";
 import deleteItem from "@wasp/actions/deleteItem";
 import getItems from "@wasp/queries/getItems";
 import getCategories from "@wasp/queries/getCategories";
+import { Layout } from "./Layout";
 
-function ItemItem({ item }: { item: Item }) {
+function ItemItem({ item, index }: { item: Item; index: number }) {
   async function handleClick() {
     try {
       await deleteItem({ id: item.id });
@@ -18,22 +19,15 @@ function ItemItem({ item }: { item: Item }) {
 
   return (
     <li>
-      <dl>
-        <dt>id</dt>
-        <dd>{item.id}</dd>
+      {index}
 
-        <dt>image</dt>
-        <dd>{item.image}</dd>
-
-        <dt>name</dt>
-        <dd>{item.name}</dd>
-
-        <dt>note</dt>
-        <dd>{item.note}</dd>
-
-        <dt>categoryId</dt>
-        <dd>{item.categoryId}</dd>
-      </dl>
+      <ul>
+        <li>id: {item.id}</li>
+        <li>image: {item.image}</li>
+        <li>name: {item.name}</li>
+        <li>note: {item.note}</li>
+        <li>categoryId: {item.categoryId}</li>
+      </ul>
 
       <button onClick={handleClick}>Delete</button>
     </li>
@@ -47,8 +41,8 @@ function ItemList({ items }: { items: Item[] }) {
 
   return (
     <ul>
-      {items.map((item) => (
-        <ItemItem key={item.id} item={item} />
+      {items.map((item, index) => (
+        <ItemItem key={item.id} item={item} index={index + 1} />
       ))}
     </ul>
   );
@@ -122,18 +116,16 @@ export function DebugItemPage() {
   const { data: items, isLoading, error } = useQuery(getItems);
 
   return (
-    <div className="container">
-      <main>
-        <div>
-          {items && <ItemList items={items} />}
-          {isLoading && "Loading..."}
-          {error && "Error: " + error}
-        </div>
+    <Layout>
+      <h1>Item</h1>
 
-        <div>
-          <ItemForm />
-        </div>
-      </main>
-    </div>
+      {isLoading && <p>Loading...</p>}
+
+      {error && <p>Error: {error.message}</p>}
+
+      {items && <ItemList items={items} />}
+
+      <ItemForm />
+    </Layout>
   );
 }

@@ -10,6 +10,7 @@ function CategoryItem({ category }: { category: Category }) {
     try {
       await deleteCategory({ id: category.id });
     } catch (err: any) {
+      console.error(err);
       window.alert("Error: " + err.message);
     }
   }
@@ -47,6 +48,7 @@ function CategoryForm() {
 
       target.reset();
     } catch (err: any) {
+      console.error(err);
       window.alert("Error: " + err.message);
     }
   }

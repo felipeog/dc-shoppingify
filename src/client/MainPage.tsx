@@ -6,7 +6,7 @@ import createCategory from "@wasp/actions/createCategory";
 import getCategories from "@wasp/queries/getCategories";
 import logout from "@wasp/auth/logout";
 
-const CategoriesList = ({ categories }: { categories: Category[] }) => {
+function CategoriesList({ categories }: { categories: Category[] }) {
   if (!categories?.length) {
     return <div>No categories</div>;
   }
@@ -18,10 +18,10 @@ const CategoriesList = ({ categories }: { categories: Category[] }) => {
       ))}
     </ul>
   );
-};
+}
 
-const NewCategoryForm = () => {
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+function NewCategoryForm() {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     try {
@@ -34,7 +34,7 @@ const NewCategoryForm = () => {
     } catch (err: any) {
       window.alert("Error: " + err.message);
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -42,9 +42,9 @@ const NewCategoryForm = () => {
       <input type="submit" value="Create category" />
     </form>
   );
-};
+}
 
-const MainPage = ({ user }: { user: User }) => {
+export function MainPage({ user }: { user: User }) {
   const { data: categories, isLoading, error } = useQuery(getCategories);
 
   return (
@@ -67,6 +67,4 @@ const MainPage = ({ user }: { user: User }) => {
       </main>
     </div>
   );
-};
-
-export default MainPage;
+}

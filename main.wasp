@@ -77,7 +77,7 @@ route RootRoute {
 }
 page MainPage {
   authRequired: true,
-  component: import Main from "@client/MainPage.tsx"
+  component: import { MainPage } from "@client/MainPage.tsx"
 }
 
 route SignupRoute {
@@ -85,7 +85,7 @@ route SignupRoute {
   to: SignupPage
 }
 page SignupPage {
-  component: import Signup from "@client/SignupPage.tsx"
+  component: import { SignupPage } from "@client/SignupPage.tsx"
 }
 
 route LoginRoute {
@@ -93,6 +93,6 @@ route LoginRoute {
   to: LoginPage
 }
 page LoginPage {
-  component: import Login from "@client/LoginPage.tsx"
+  component: import { LoginPage } from "@client/LoginPage.tsx"
 }
 // end: routes

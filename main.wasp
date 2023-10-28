@@ -56,6 +56,13 @@ entity Category {=psl
 psl=}
 // end: entities
 
+// start: queries
+query getCategories {
+  fn: import { getCategories } from "@server/queries.js",
+  entities: [Category]
+}
+// end: queries
+
 // start: actions
 action createCategory {
   fn: import { createCategory } from "@server/actions.js",

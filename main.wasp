@@ -68,6 +68,11 @@ action createCategory {
   fn: import { createCategory } from "@server/actions.js",
   entities: [Category]
 }
+
+action deleteCategory {
+  fn: import { deleteCategory } from "@server/actions.js",
+  entities: [Category]
+}
 // end: actions
 
 // start: routes

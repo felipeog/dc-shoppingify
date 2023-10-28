@@ -1,4 +1,4 @@
-import { CreateCategory } from "@wasp/actions/types";
+import { CreateCategory, DeleteCategory } from "@wasp/actions/types";
 import { Category } from "@wasp/entities";
 
 export const createCategory: CreateCategory<
@@ -12,4 +12,17 @@ export const createCategory: CreateCategory<
   });
 
   return newCategory;
+};
+
+export const deleteCategory: DeleteCategory<
+  Pick<Category, "id">,
+  Category
+> = async (args, context) => {
+  const category = await context.entities.Category.delete({
+    where: {
+      id: args.id,
+    },
+  });
+
+  return category;
 };

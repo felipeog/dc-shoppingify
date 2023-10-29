@@ -113,7 +113,7 @@ function ListItemForm() {
             ))}
           </select>
 
-          <input type="submit" value="Create items list" />
+          <input type="submit" value="Create list item" />
         </form>
       ) : (
         "Can't create a list item without a list and a item"

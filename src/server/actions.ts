@@ -13,8 +13,11 @@ export const createCategory: CreateCategory<
   Pick<Category, "name">,
   Category
 > = async (args, context) => {
-  // TODO: prevent case insensitive duplicates
+  if (!context.user) {
+    throw new HttpError(401);
+  }
 
+  // TODO: prevent case insensitive duplicates
   const createdCategory = await context.entities.Category.create({
     data: {
       name: args.name,
@@ -28,6 +31,10 @@ export const deleteCategory: DeleteCategory<
   Pick<Category, "id">,
   Category
 > = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(401);
+  }
+
   const itemsInCategory = await context.entities.Item.findMany({
     select: { id: true },
     where: { categoryId: { equals: args.id } },
@@ -48,8 +55,11 @@ export const createItem: CreateItem<
   Pick<Item, "categoryId" | "image" | "name" | "note">,
   Item
 > = async (args, context) => {
-  // TODO: make sure empty args are `undefined`
+  if (!context.user) {
+    throw new HttpError(401);
+  }
 
+  // TODO: make sure empty args are `undefined`
   const createdItem = await context.entities.Item.create({
     data: {
       image: args.image,
@@ -66,6 +76,10 @@ export const deleteItem: DeleteItem<Pick<Item, "id">, Item> = async (
   args,
   context
 ) => {
+  if (!context.user) {
+    throw new HttpError(401);
+  }
+
   const listItemsinItem = await context.entities.ListItem.findMany({
     select: { id: true },
     where: { itemId: { equals: args.id } },
@@ -104,6 +118,10 @@ export const createListItem: CreateListItem<
   Pick<ListItem, "itemId" | "itemsListId">,
   ListItem
 > = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(401);
+  }
+
   const itemsList = await context.entities.ItemsList.findUnique({
     select: { listItems: { where: { itemId: Number(args.itemId) } } },
     where: { id: Number(args.itemsListId) },

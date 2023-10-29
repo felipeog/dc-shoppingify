@@ -14,18 +14,18 @@ app wasp {
 
 // start: entities
 entity User {=psl
-  id        Int         @id @default(autoincrement())
-  username  String      @unique
-  password  String
-  lists     ItemsList[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id          Int         @id @default(autoincrement())
+  username    String      @unique
+  password    String
+  itemsLists  ItemsList[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 psl=}
 
 entity ItemsList {=psl
   id        Int         @id @default(autoincrement())
   name      String      @default("Shopping list")
-  items     ListItem[]
+  listItems ListItem[]
   state     String      @default("ONGOING") // "ONGOING" | "COMPLETED" | "CANCELLED"
   user      User        @relation(fields: [userId], references: [id])
   userId    Int

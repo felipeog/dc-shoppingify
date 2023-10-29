@@ -2,16 +2,19 @@ import {
   CreateCategory,
   CreateItem,
   CreateItemsList,
+  CreateListItem,
   DeleteCategory,
   DeleteItem,
 } from "@wasp/actions/types";
 import HttpError from "@wasp/core/HttpError.js";
-import { Category, Item, ItemsList } from "@wasp/entities";
+import { Category, Item, ItemsList, ListItem } from "@wasp/entities";
 
 export const createCategory: CreateCategory<
   Pick<Category, "name">,
   Category
 > = async (args, context) => {
+  // TODO: prevent case insensitive duplicates
+
   const createdCategory = await context.entities.Category.create({
     data: {
       name: args.name,
@@ -45,6 +48,8 @@ export const createItem: CreateItem<
   Pick<Item, "categoryId" | "image" | "name" | "note">,
   Item
 > = async (args, context) => {
+  // TODO: make sure empty args are `undefined`
+
   const createdItem = await context.entities.Item.create({
     data: {
       image: args.image,
@@ -93,4 +98,20 @@ export const createItemsList: CreateItemsList<
   });
 
   return createdItemsList;
+};
+
+export const createListItem: CreateListItem<
+  Pick<ListItem, "itemId" | "itemsListId">,
+  ListItem
+> = async (args, context) => {
+  // TODO: check if `item` already exists in `itemsList`
+
+  const createdListItem = await context.entities.ListItem.create({
+    data: {
+      item: { connect: { id: Number(args.itemId) } },
+      itemsList: { connect: { id: Number(args.itemsListId) } },
+    },
+  });
+
+  return createdListItem;
 };

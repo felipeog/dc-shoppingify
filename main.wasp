@@ -81,6 +81,11 @@ query getItemsLists {
   fn: import { getItemsLists } from "@server/queries.js",
   entities: [ItemsList]
 }
+
+query getListItems {
+  fn: import { getListItems } from "@server/queries.js",
+  entities: [ListItem]
+}
 // end: queries
 
 // start: actions
@@ -107,6 +112,11 @@ action deleteItem {
 action createItemsList {
   fn: import { createItemsList } from "@server/actions.js",
   entities: [ItemsList]
+}
+
+action createListItem {
+  fn: import { createListItem } from "@server/actions.js",
+  entities: [ListItem]
 }
 // end: actions
 

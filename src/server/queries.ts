@@ -1,4 +1,9 @@
-import { GetCategories, GetItems, GetItemsLists } from "@wasp/queries/types";
+import {
+  GetCategories,
+  GetItems,
+  GetItemsLists,
+  GetListItems,
+} from "@wasp/queries/types";
 import { Category, Item, ItemsList, ListItem } from "@wasp/entities";
 
 export const getCategories: GetCategories<void, Category[]> = async (
@@ -24,10 +29,23 @@ export const getItemsLists: GetItemsLists<
   void,
   ItemsList[] & { listItems: ListItem[] }[]
 > = async (_args, context) => {
+  // TODO: limit by current user
+
   const itemsLists = await context.entities.ItemsList.findMany({
     orderBy: { id: "asc" },
     include: { listItems: true },
   });
 
   return itemsLists;
+};
+
+export const getListItems: GetListItems<void, ListItem[]> = async (
+  _args,
+  context
+) => {
+  const listItems = await context.entities.ListItem.findMany({
+    orderBy: { id: "asc" },
+  });
+
+  return listItems;
 };

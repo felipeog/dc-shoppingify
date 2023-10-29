@@ -6,6 +6,8 @@ import createItemsList from "@wasp/actions/createItemsList";
 import getItemsLists from "@wasp/queries/getItemsLists";
 import { Layout } from "./Layout";
 
+// TODO: add delete
+
 // https://github.com/microsoft/TypeScript/issues/41874
 type TItemsListList = ItemsList[] & { listItems: ListItem[] }[];
 type TItemsListItem = ItemsList & { listItems: ListItem[] };

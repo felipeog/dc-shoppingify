@@ -26,7 +26,7 @@ entity ItemsList {=psl
   id        Int         @id @default(autoincrement())
   name      String      @default("Shopping list")
   listItems ListItem[]
-  state     String      @default("ONGOING") // "ONGOING" | "COMPLETED" | "CANCELLED"
+  state     String      @default("ONGOING") // "ONGOING" | "COMPLETED" | "CANCELLED" https://github.com/wasp-lang/wasp/issues/641
   user      User        @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime    @default(now())
@@ -75,6 +75,11 @@ query getCategories {
 query getItems {
   fn: import { getItems } from "@server/queries.js",
   entities: [Item]
+}
+
+query getItemsLists {
+  fn: import { getItemsLists } from "@server/queries.js",
+  entities: [ItemsList]
 }
 // end: queries
 

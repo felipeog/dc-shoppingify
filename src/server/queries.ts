@@ -42,7 +42,6 @@ export const getItemsLists: GetItemsLists<
     throw new HttpError(401);
   }
 
-  // TODO: limit by current user
   const itemsLists = await context.entities.ItemsList.findMany({
     orderBy: { id: "asc" },
     include: { listItems: true },
@@ -62,6 +61,7 @@ export const getListItems: GetListItems<void, ListItem[]> = async (
 
   const listItems = await context.entities.ListItem.findMany({
     orderBy: { id: "asc" },
+    where: { itemsList: { userId: context.user.id } },
   });
 
   return listItems;

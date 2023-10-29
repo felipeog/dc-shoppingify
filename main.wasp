@@ -9,6 +9,11 @@ app wasp {
       usernameAndPassword: {}
     },
     onAuthFailedRedirectTo: "/login"
+  },
+  db: {
+    seeds: [
+      import { devSeed } from "@server/dbSeeds.js",
+    ]
   }
 }
 

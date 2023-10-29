@@ -116,7 +116,7 @@ action createItemsList {
 
 action createListItem {
   fn: import { createListItem } from "@server/actions.js",
-  entities: [ListItem]
+  entities: [ListItem, ItemsList]
 }
 // end: actions
 

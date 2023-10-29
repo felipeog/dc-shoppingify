@@ -1,10 +1,8 @@
 import { ItemsList, ListItem } from "@wasp/entities";
 import { FormEvent } from "react";
 import { useQuery } from "@wasp/queries";
-// import createItem from "@wasp/actions/createItem";
+import createItemsList from "@wasp/actions/createItemsList";
 // import deleteItem from "@wasp/actions/deleteItem";
-// import getItems from "@wasp/queries/getItems";
-// import getCategories from "@wasp/queries/getCategories";
 import getItemsLists from "@wasp/queries/getItemsLists";
 import { Layout } from "./Layout";
 
@@ -33,6 +31,7 @@ function ItemsListItem({
       {index}
 
       <ul>
+        <li>id: {itemsList.id}</li>
         <li>name: {itemsList.name}</li>
         <li>
           listItems:
@@ -69,69 +68,40 @@ function ItemsListList({ itemsLists }: { itemsLists: TItemsListList }) {
   );
 }
 
-// function ItemForm() {
-//   const { data: categories, isLoading, error } = useQuery(getCategories);
+function ItemsListForm() {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-//   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-//     event.preventDefault();
+    try {
+      const target = event.target as HTMLFormElement;
+      const name = target.itemsListName.value;
 
-//     try {
-//       const target = event.target as HTMLFormElement;
-//       const image = target.image.value;
-//       const name = target.itemName.value;
-//       const note = target.note.value;
-//       const categoryId = target.category.value;
+      await createItemsList({
+        name,
+      });
 
-//       await createItem({
-//         image,
-//         name,
-//         note,
-//         categoryId,
-//       });
+      target.reset();
+    } catch (err: any) {
+      console.error(err);
+      window.alert("Error: " + err.message);
+    }
+  }
 
-//       target.reset();
-//     } catch (err: any) {
-//       console.error(err);
-//       window.alert("Error: " + err.message);
-//     }
-//   }
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <input
+          placeholder="Name"
+          name="itemsListName"
+          type="text"
+          defaultValue=""
+        />
 
-//   return (
-//     <div>
-//       {isLoading && "Loading..."}
-//       {error && "Error: " + error}
-
-//       {categories && categories.length ? (
-//         <form onSubmit={handleSubmit}>
-//           <input
-//             placeholder="Image URL"
-//             name="image"
-//             type="text"
-//             defaultValue=""
-//           />
-//           <input
-//             placeholder="Name"
-//             name="itemName"
-//             type="text"
-//             defaultValue=""
-//           />
-//           <input placeholder="Note" name="note" type="text" defaultValue="" />
-//           <select name="category">
-//             {categories.map((category) => (
-//               <option key={category.id} value={category.id}>
-//                 {category.name}
-//               </option>
-//             ))}
-//           </select>
-
-//           <input type="submit" value="Create item" />
-//         </form>
-//       ) : (
-//         "Can't create an item without a category"
-//       )}
-//     </div>
-//   );
-// }
+        <input type="submit" value="Create items list" />
+      </form>
+    </div>
+  );
+}
 
 export function DebugItemsListPage() {
   const { data: itemsLists, isLoading, error } = useQuery(getItemsLists);
@@ -146,7 +116,7 @@ export function DebugItemsListPage() {
 
       {itemsLists && <ItemsListList itemsLists={itemsLists} />}
 
-      {/* <ItemForm /> */}
+      <ItemsListForm />
     </Layout>
   );
 }

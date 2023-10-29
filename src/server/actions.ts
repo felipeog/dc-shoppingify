@@ -1,11 +1,12 @@
 import {
   CreateCategory,
   CreateItem,
+  CreateItemsList,
   DeleteCategory,
   DeleteItem,
 } from "@wasp/actions/types";
 import HttpError from "@wasp/core/HttpError.js";
-import { Category, Item } from "@wasp/entities";
+import { Category, Item, ItemsList } from "@wasp/entities";
 
 export const createCategory: CreateCategory<
   Pick<Category, "name">,
@@ -74,4 +75,22 @@ export const deleteItem: DeleteItem<Pick<Item, "id">, Item> = async (
   });
 
   return deletedItem;
+};
+
+export const createItemsList: CreateItemsList<
+  Pick<ItemsList, "name">,
+  ItemsList
+> = async (args, context) => {
+  if (!context.user) {
+    throw new HttpError(401);
+  }
+
+  const createdItemsList = await context.entities.ItemsList.create({
+    data: {
+      name: args.name || undefined,
+      user: { connect: { id: Number(context.user.id) } },
+    },
+  });
+
+  return createdItemsList;
 };

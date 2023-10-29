@@ -5,7 +5,7 @@ import {
   GetListItems,
 } from "@wasp/queries/types";
 import { Category, Item, ItemsList, ListItem } from "@wasp/entities";
-import HttpError from "@wasp/core/HttpError";
+import HttpError from "@wasp/core/HttpError.js";
 
 export const getCategories: GetCategories<void, Category[]> = async (
   _args,
@@ -46,6 +46,7 @@ export const getItemsLists: GetItemsLists<
   const itemsLists = await context.entities.ItemsList.findMany({
     orderBy: { id: "asc" },
     include: { listItems: true },
+    where: { user: { id: context.user.id } },
   });
 
   return itemsLists;

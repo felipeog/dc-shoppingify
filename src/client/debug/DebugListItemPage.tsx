@@ -33,7 +33,7 @@ function ListItemItem({
       <ul>
         <li>id: {listItem.id}</li>
         <li>amount: {listItem.amount}</li>
-        <li>isDone: {listItem.isDone}</li>
+        <li>isDone: {String(listItem.isDone)}</li>
         <li>itemId: {listItem.itemId}</li>
         <li>itemsListId: {listItem.itemsListId}</li>
       </ul>

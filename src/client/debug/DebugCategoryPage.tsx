@@ -6,7 +6,13 @@ import deleteCategory from "@wasp/actions/deleteCategory";
 import getCategories from "@wasp/queries/getCategories";
 import { Layout } from "./Layout";
 
-function CategoryItem({ category }: { category: Category }) {
+function CategoryItem({
+  category,
+  index,
+}: {
+  category: Category;
+  index: number;
+}) {
   async function handleClick() {
     try {
       await deleteCategory({ id: category.id });
@@ -18,7 +24,16 @@ function CategoryItem({ category }: { category: Category }) {
 
   return (
     <li>
-      {category.name} <button onClick={handleClick}>Delete</button>
+      {index}
+
+      <ul>
+        <li>id: {category.id}</li>
+        <li>name: {category.name}</li>
+
+        <li>
+          <button onClick={handleClick}>Delete</button>
+        </li>
+      </ul>
     </li>
   );
 }
@@ -30,8 +45,8 @@ function CategoriesList({ categories }: { categories: Category[] }) {
 
   return (
     <ul>
-      {categories.map((category) => (
-        <CategoryItem key={category.id} category={category} />
+      {categories.map((category, index) => (
+        <CategoryItem key={category.id} category={category} index={index + 1} />
       ))}
     </ul>
   );

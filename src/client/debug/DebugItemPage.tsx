@@ -27,9 +27,11 @@ function ItemItem({ item, index }: { item: Item; index: number }) {
         <li>name: {item.name}</li>
         <li>note: {item.note}</li>
         <li>categoryId: {item.categoryId}</li>
-      </ul>
 
-      <button onClick={handleClick}>Delete</button>
+        <li>
+          <button onClick={handleClick}>Delete</button>
+        </li>
+      </ul>
     </li>
   );
 }

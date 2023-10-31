@@ -1,5 +1,6 @@
 import { Button } from "./components/Button";
 import { Category } from "@wasp/entities";
+import { Form } from "./components/Form";
 import { FormEvent, useState } from "react";
 import { Layout } from "./components/Layout";
 import { useQuery } from "@wasp/queries";
@@ -79,10 +80,16 @@ function CategoryForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="categoryName" type="text" defaultValue="" required />
+    <Form onSubmit={handleSubmit}>
+      <input
+        placeholder="Name"
+        name="categoryName"
+        type="text"
+        defaultValue=""
+        required
+      />
       <Button type="submit">Create category</Button>
-    </form>
+    </Form>
   );
 }
 

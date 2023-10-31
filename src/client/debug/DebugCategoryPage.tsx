@@ -9,14 +9,18 @@ import createCategory from "@wasp/actions/createCategory";
 import deleteCategory from "@wasp/actions/deleteCategory";
 import getCategories from "@wasp/queries/getCategories";
 
-function CategoryRow({ category }: { category: Category }) {
+// TODO: separate components in files
+
+function CategoryRow(props: { category: Category; isDisabled: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
+
+  const isActionDisabled = props.isDisabled || isLoading;
 
   async function handleClick() {
     setIsLoading(true);
 
     try {
-      await deleteCategory({ id: category.id });
+      await deleteCategory({ id: props.category.id });
     } catch (err: any) {
       console.error(err);
       window.alert("Error: " + err.message);
@@ -27,10 +31,10 @@ function CategoryRow({ category }: { category: Category }) {
 
   return (
     <tr>
-      <Table.TableData>{category.id}</Table.TableData>
-      <Table.TableData>{category.name}</Table.TableData>
+      <Table.TableData>{props.category.id}</Table.TableData>
+      <Table.TableData>{props.category.name}</Table.TableData>
       <Table.TableData>
-        <Button onClick={handleClick} disabled={isLoading}>
+        <Button onClick={handleClick} disabled={isActionDisabled}>
           Delete
         </Button>
       </Table.TableData>
@@ -38,8 +42,11 @@ function CategoryRow({ category }: { category: Category }) {
   );
 }
 
-function CategoriesTable({ categories }: { categories: Category[] }) {
-  if (!categories?.length) {
+function CategoriesTable(props: {
+  categories: Category[];
+  isDisabled: boolean;
+}) {
+  if (!props.categories?.length) {
     return <p>No categories</p>;
   }
 
@@ -54,17 +61,27 @@ function CategoriesTable({ categories }: { categories: Category[] }) {
       </thead>
 
       <tbody>
-        {categories.map((category, index) => (
-          <CategoryRow key={category.id} category={category} />
+        {props.categories.map((category) => (
+          <CategoryRow
+            key={category.id}
+            category={category}
+            isDisabled={props.isDisabled}
+          />
         ))}
       </tbody>
     </Table.Table>
   );
 }
 
-function CategoryForm() {
+function CategoryForm(props: { isDisabled: boolean }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const isFormDisabled = props.isDisabled || isLoading;
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    setIsLoading(true);
 
     try {
       const target = event.target as HTMLFormElement;
@@ -76,6 +93,8 @@ function CategoryForm() {
     } catch (err: any) {
       console.error(err);
       window.alert("Error: " + err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -86,23 +105,31 @@ function CategoryForm() {
         name="categoryName"
         type="text"
         defaultValue=""
+        disabled={isFormDisabled}
         required
       />
-      <Button type="submit">Create category</Button>
+      <Button type="submit" disabled={isFormDisabled}>
+        Create category
+      </Button>
     </Form>
   );
 }
 
 export function DebugCategoryPage() {
-  const { data: categories, isLoading, error } = useQuery(getCategories);
+  const {
+    data: categories,
+    isLoading,
+    error,
+    isFetching,
+  } = useQuery(getCategories);
 
   return (
     <Layout isLoading={isLoading} error={error}>
-      <CategoriesTable categories={categories ?? []} />
+      <CategoriesTable categories={categories ?? []} isDisabled={isFetching} />
 
       <br />
 
-      <CategoryForm />
+      <CategoryForm isDisabled={isFetching} />
     </Layout>
   );
 }

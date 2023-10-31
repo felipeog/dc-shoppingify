@@ -1,43 +1,56 @@
-import { Link } from "@wasp/router";
+import { Link, routes as routerRoutes } from "@wasp/router";
+import { useLocation } from "react-router-dom";
 
 type TLayoutProps = {
   children: React.ReactNode;
 };
 
-const styles = {
-  ul: {
-    display: "flex",
-    gap: "1rem",
-    padding: 0,
-    margin: "0 0 2rem",
-    listStyleType: "none",
+const routes = [
+  {
+    to: routerRoutes.DebugRoute.to,
+    label: "Debug",
   },
-};
+  {
+    to: routerRoutes.DebugCategoryRoute.to,
+    label: "Category",
+  },
+  {
+    to: routerRoutes.DebugItemRoute.to,
+    label: "Item",
+  },
+  {
+    to: routerRoutes.DebugItemsListRoute.to,
+    label: "ItemsList",
+  },
+  {
+    to: routerRoutes.DebugListItemRoute.to,
+    label: "ListItem",
+  },
+];
 
 export function Layout(props: TLayoutProps) {
+  const location = useLocation();
+
   return (
-    <div>
-      <nav>
-        <ul style={styles.ul}>
-          <li>
-            <Link to="/debug">Debug</Link>
-          </li>
-          <li>
-            <Link to="/debug/category">Category</Link>
-          </li>
-          <li>
-            <Link to="/debug/item">Item</Link>
-          </li>
-          <li>
-            <Link to="/debug/items-list">ItemsList</Link>
-          </li>
-          <li>
-            <Link to="/debug/list-item">ListItem</Link>
-          </li>
+    <div className="container mx-auto px-4">
+      <nav className="border-b border-gray-300">
+        <ul className="flex gap-4">
+          {routes.map((route) => (
+            <li key={route.to}>
+              <Link
+                to={route.to}
+                className={`block py-4 ${
+                  route.to === location.pathname ? "underline" : ""
+                }`}
+              >
+                {route.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <main>{props.children}</main>
+      <main className="mt-4">{props.children}</main>
     </div>
   );
 }

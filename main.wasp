@@ -17,7 +17,10 @@ app wasp {
   }
 }
 
-// start: entities
+/* ========================================
+  start: entities 
+======================================== */
+
 entity User {=psl
   id          Int         @id @default(autoincrement())
   username    String      @unique
@@ -69,9 +72,15 @@ entity Category {=psl
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 psl=}
-// end: entities
 
-// start: queries
+/* ========================================
+  end: entities
+======================================== */
+
+/* ========================================
+  start: queries 
+======================================== */
+
 query getCategories {
   fn: import { getCategories } from "@server/queries.js",
   entities: [Category]
@@ -91,41 +100,83 @@ query getListItems {
   fn: import { getListItems } from "@server/queries.js",
   entities: [ListItem]
 }
-// end: queries
 
-// start: actions
+/* ========================================
+  end: queries
+======================================== */
+
+/* ========================================
+  start: actions 
+======================================== */
+
 action createCategory {
-  fn: import { createCategory } from "@server/actions.js",
+  fn: import { createCategory } from "@server/actions/category/createCategory.js",
+  entities: [Category]
+}
+
+action updateCategory {
+  fn: import { updateCategory } from "@server/actions/category/updateCategory.js",
   entities: [Category]
 }
 
 action deleteCategory {
-  fn: import { deleteCategory } from "@server/actions.js",
+  fn: import { deleteCategory } from "@server/actions/category/deleteCategory.js",
   entities: [Category, Item]
 }
 
 action createItem {
-  fn: import { createItem } from "@server/actions.js",
+  fn: import { createItem } from "@server/actions/item/createItem.js",
   entities: [Item]
 }
 
+action updateItem {
+  fn: import { updateItem } from "@server/actions/item/updateItem.js",
+  entities: [Item ]
+}
+
 action deleteItem {
-  fn: import { deleteItem } from "@server/actions.js",
+  fn: import { deleteItem } from "@server/actions/item/deleteItem.js",
   entities: [Item, ListItem]
 }
 
 action createItemsList {
-  fn: import { createItemsList } from "@server/actions.js",
+  fn: import { createItemsList } from "@server/actions/itemsList/createItemsList.js",
+  entities: [ItemsList]
+}
+
+action updateItemsList {
+  fn: import { updateItemsList } from "@server/actions/itemsList/updateItemsList.js",
+  entities: [ItemsList]
+}
+
+action deleteItemsList {
+  fn: import { deleteItemsList } from "@server/actions/itemsList/deleteItemsList.js",
   entities: [ItemsList]
 }
 
 action createListItem {
-  fn: import { createListItem } from "@server/actions.js",
+  fn: import { createListItem } from "@server/actions/listItem/createListItem.js",
   entities: [ListItem, ItemsList]
 }
-// end: actions
 
-// start: routes
+action updateListItem {
+  fn: import { updateListItem } from "@server/actions/listItem/updateListItem.js",
+  entities: [ListItem, ItemsList]
+}
+
+action deleteListItem {
+  fn: import { deleteListItem } from "@server/actions/listItem/deleteListItem.js",
+  entities: [ListItem, ItemsList]
+}
+
+/* ========================================
+  end: actions
+======================================== */
+
+/* ========================================
+  start: routes 
+======================================== */
+
 route RootRoute {
   path: "/",
   to: MainPage
@@ -195,4 +246,7 @@ page DebugCategoryPage {
   authRequired: true,
   component: import { DebugCategoryPage } from "@client/debug/DebugCategoryPage.tsx"
 }
-// end: routes
+
+/* ========================================
+  end: routes
+======================================== */

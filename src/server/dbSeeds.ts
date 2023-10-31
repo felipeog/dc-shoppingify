@@ -1,11 +1,9 @@
-import { User } from "@wasp/entities";
+import { createCategory } from "./actions/category/createCategory.js";
+import { createItem } from "./actions/item/createItem.js";
+import { createItemsList } from "./actions/itemsList/createItemsList.js";
+import { createListItem } from "./actions/listItem/createListItem.js";
 import { PrismaClient } from "@prisma/client";
-import {
-  createCategory,
-  createItem,
-  createItemsList,
-  createListItem,
-} from "./actions.js";
+import { User } from "@wasp/entities";
 
 export const devSeed = async (prismaClient: PrismaClient) => {
   // start: users

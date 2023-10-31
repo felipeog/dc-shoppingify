@@ -126,13 +126,8 @@ export function DebugListItemPage() {
   const { data: listItems, isLoading, error } = useQuery(getListItems);
 
   return (
-    <Layout>
-      {isLoading && <p>Loading...</p>}
-
-      {error && <p>Error: {error.message}</p>}
-
-      {listItems && <ListItemList listItems={listItems} />}
-
+    <Layout isLoading={isLoading} error={error}>
+      <ListItemList listItems={listItems ?? []} />
       <ListItemForm />
     </Layout>
   );

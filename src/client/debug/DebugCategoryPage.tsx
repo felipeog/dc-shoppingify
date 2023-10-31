@@ -81,13 +81,8 @@ export function DebugCategoryPage() {
   const { data: categories, isLoading, error } = useQuery(getCategories);
 
   return (
-    <Layout>
-      {isLoading && <p>Loading...</p>}
-
-      {error && <p>Error: {error.message}</p>}
-
-      {categories && <CategoriesList categories={categories} />}
-
+    <Layout isLoading={isLoading} error={error}>
+      <CategoriesList categories={categories ?? []} />
       <CategoryForm />
     </Layout>
   );

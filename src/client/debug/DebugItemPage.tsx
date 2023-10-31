@@ -118,13 +118,8 @@ export function DebugItemPage() {
   const { data: items, isLoading, error } = useQuery(getItems);
 
   return (
-    <Layout>
-      {isLoading && <p>Loading...</p>}
-
-      {error && <p>Error: {error.message}</p>}
-
-      {items && <ItemList items={items} />}
-
+    <Layout isLoading={isLoading} error={error}>
+      <ItemList items={items ?? []} />
       <ItemForm />
     </Layout>
   );

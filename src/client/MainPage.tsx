@@ -1,5 +1,6 @@
 import { User } from "@wasp/entities";
 import logout from "@wasp/auth/logout";
+import "./Main.css";
 
 export function MainPage({ user }: { user: User }) {
   return (

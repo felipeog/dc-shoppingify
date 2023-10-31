@@ -15,7 +15,10 @@ app wasp {
     seeds: [
       import { devSeed } from "@server/dbSeeds.js",
     ]
-  }
+  },
+  dependencies: [
+    ("@tailwindcss/forms", "^0.5.3")
+  ]
 }
 
 /* ========================================

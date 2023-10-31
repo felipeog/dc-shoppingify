@@ -1,6 +1,7 @@
+import { clsx } from "clsx";
 import { Link } from "@wasp/router";
-import { useLocation } from "react-router-dom";
 import { QueryContainer } from "./QueryContainer";
+import { useLocation } from "react-router-dom";
 
 type TLayoutProps = {
   children: React.ReactNode;
@@ -44,9 +45,9 @@ export function Layout(props: TLayoutProps) {
             <li key={route.to}>
               <Link
                 to={route.to}
-                className={`block py-4 ${
-                  route.to === currentRoute?.to ? "underline" : ""
-                }`}
+                className={clsx("block py-4", {
+                  underline: route.to === currentRoute?.to,
+                })}
               >
                 {route.label}
               </Link>

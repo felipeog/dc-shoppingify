@@ -11,6 +11,7 @@ app wasp {
     onAuthFailedRedirectTo: "/login"
   },
   db: {
+    system: PostgreSQL,
     seeds: [
       import { devSeed } from "@server/dbSeeds.js",
     ]

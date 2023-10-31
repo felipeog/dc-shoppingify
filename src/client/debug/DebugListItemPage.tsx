@@ -127,8 +127,6 @@ export function DebugListItemPage() {
 
   return (
     <Layout>
-      <h1>ListItem</h1>
-
       {isLoading && <p>Loading...</p>}
 
       {error && <p>Error: {error.message}</p>}

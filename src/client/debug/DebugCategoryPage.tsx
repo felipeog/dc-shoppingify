@@ -82,8 +82,6 @@ export function DebugCategoryPage() {
 
   return (
     <Layout>
-      <h1>Category</h1>
-
       {isLoading && <p>Loading...</p>}
 
       {error && <p>Error: {error.message}</p>}

@@ -119,8 +119,6 @@ export function DebugItemPage() {
 
   return (
     <Layout>
-      <h1>Item</h1>
-
       {isLoading && <p>Loading...</p>}
 
       {error && <p>Error: {error.message}</p>}

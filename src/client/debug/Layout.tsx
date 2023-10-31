@@ -31,6 +31,8 @@ const routes = [
 export function Layout(props: TLayoutProps) {
   const location = useLocation();
 
+  const currentRoute = routes.find((route) => route.to === location.pathname);
+
   return (
     <div className="container mx-auto px-4">
       <nav className="border-b border-gray-300">
@@ -40,7 +42,7 @@ export function Layout(props: TLayoutProps) {
               <Link
                 to={route.to}
                 className={`block py-4 ${
-                  route.to === location.pathname ? "underline" : ""
+                  route.to === currentRoute?.to ? "underline" : ""
                 }`}
               >
                 {route.label}
@@ -50,7 +52,11 @@ export function Layout(props: TLayoutProps) {
         </ul>
       </nav>
 
-      <main className="mt-4">{props.children}</main>
+      <main className="mt-6">
+        <h1 className="text-2xl mb-4">{currentRoute?.label}</h1>
+
+        {props.children}
+      </main>
     </div>
   );
 }

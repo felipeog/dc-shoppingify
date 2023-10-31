@@ -1,54 +1,63 @@
+import { Button } from "./components/Button";
 import { Category } from "@wasp/entities";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
+import { Layout } from "./components/Layout";
 import { useQuery } from "@wasp/queries";
+import * as Table from "./components/Table";
 import createCategory from "@wasp/actions/createCategory";
 import deleteCategory from "@wasp/actions/deleteCategory";
 import getCategories from "@wasp/queries/getCategories";
-import { Layout } from "./Layout";
 
-function CategoryItem({
-  category,
-  index,
-}: {
-  category: Category;
-  index: number;
-}) {
+function CategoryRow({ category }: { category: Category }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   async function handleClick() {
+    setIsLoading(true);
+
     try {
       await deleteCategory({ id: category.id });
     } catch (err: any) {
       console.error(err);
       window.alert("Error: " + err.message);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
-    <li>
-      {index}
-
-      <ul>
-        <li>id: {category.id}</li>
-        <li>name: {category.name}</li>
-
-        <li>
-          <button onClick={handleClick}>Delete</button>
-        </li>
-      </ul>
-    </li>
+    <tr>
+      <Table.TableData>{category.id}</Table.TableData>
+      <Table.TableData>{category.name}</Table.TableData>
+      <Table.TableData>
+        <Button onClick={handleClick} disabled={isLoading}>
+          Delete
+        </Button>
+      </Table.TableData>
+    </tr>
   );
 }
 
-function CategoriesList({ categories }: { categories: Category[] }) {
+function CategoriesTable({ categories }: { categories: Category[] }) {
   if (!categories?.length) {
-    return <div>No categories</div>;
+    return <p>No categories</p>;
   }
 
   return (
-    <ul>
-      {categories.map((category, index) => (
-        <CategoryItem key={category.id} category={category} index={index + 1} />
-      ))}
-    </ul>
+    <Table.Table>
+      <thead>
+        <Table.TableRow>
+          <Table.TableHeader>id</Table.TableHeader>
+          <Table.TableHeader>name</Table.TableHeader>
+          <Table.TableHeader>actions</Table.TableHeader>
+        </Table.TableRow>
+      </thead>
+
+      <tbody>
+        {categories.map((category, index) => (
+          <CategoryRow key={category.id} category={category} />
+        ))}
+      </tbody>
+    </Table.Table>
   );
 }
 
@@ -71,8 +80,8 @@ function CategoryForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input name="categoryName" type="text" defaultValue="" />
-      <input type="submit" value="Create category" />
+      <input name="categoryName" type="text" defaultValue="" required />
+      <Button type="submit">Create category</Button>
     </form>
   );
 }
@@ -82,7 +91,10 @@ export function DebugCategoryPage() {
 
   return (
     <Layout isLoading={isLoading} error={error}>
-      <CategoriesList categories={categories ?? []} />
+      <CategoriesTable categories={categories ?? []} />
+
+      <br />
+
       <CategoryForm />
     </Layout>
   );

@@ -4,7 +4,7 @@ import { useQuery } from "@wasp/queries";
 import createItemsList from "@wasp/actions/createItemsList";
 // import deleteItem from "@wasp/actions/deleteItem";
 import getItemsLists from "@wasp/queries/getItemsLists";
-import { Layout } from "./Layout";
+import { Layout } from "./components/Layout";
 
 // TODO: add delete
 

@@ -6,7 +6,7 @@ import createListItem from "@wasp/actions/createListItem";
 import getListItems from "@wasp/queries/getListItems";
 import getItems from "@wasp/queries/getItems";
 import getItemsLists from "@wasp/queries/getItemsLists";
-import { Layout } from "./Layout";
+import { Layout } from "./components/Layout";
 
 // TODO: add delete
 

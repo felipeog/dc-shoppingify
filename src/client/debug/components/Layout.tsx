@@ -1,5 +1,6 @@
 import { Link } from "@wasp/router";
 import { useLocation } from "react-router-dom";
+import { QueryContainer } from "./QueryContainer";
 
 type TLayoutProps = {
   children: React.ReactNode;
@@ -57,28 +58,10 @@ export function Layout(props: TLayoutProps) {
       <main className="mt-6">
         <h1 className="text-2xl mb-4">{currentRoute?.label}</h1>
 
-        <Container isLoading={props.isLoading} error={props.error}>
+        <QueryContainer isLoading={props.isLoading} error={props.error}>
           {props.children}
-        </Container>
+        </QueryContainer>
       </main>
     </div>
   );
-}
-
-type TContainerProps = {
-  children: React.ReactNode;
-  isLoading?: boolean;
-  error?: Error | null;
-};
-
-function Container(props: TContainerProps) {
-  if (props.isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (props.error) {
-    return <p>Error: {props.error.message}</p>;
-  }
-
-  return props.children;
 }

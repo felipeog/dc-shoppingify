@@ -5,7 +5,7 @@ import createItem from "@wasp/actions/createItem";
 import deleteItem from "@wasp/actions/deleteItem";
 import getItems from "@wasp/queries/getItems";
 import getCategories from "@wasp/queries/getCategories";
-import { Layout } from "./Layout";
+import { Layout } from "./components/Layout";
 
 function ItemItem({ item, index }: { item: Item; index: number }) {
   async function handleClick() {

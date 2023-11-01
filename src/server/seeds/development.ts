@@ -1,11 +1,13 @@
-import { createCategory } from "./actions/category/createCategory.js";
-import { createItem } from "./actions/item/createItem.js";
-import { createItemsList } from "./actions/itemsList/createItemsList.js";
-import { createListItem } from "./actions/listItem/createListItem.js";
+import { createCategory } from "../actions/category/createCategory.js";
+import { createItem } from "../actions/item/createItem.js";
+import { createItemsList } from "../actions/itemsList/createItemsList.js";
+import { createListItem } from "../actions/listItem/createListItem.js";
 import { PrismaClient } from "@prisma/client";
 import { User } from "@wasp/entities";
 
-export const devSeed = async (prismaClient: PrismaClient) => {
+// TODO: reimplement
+
+export const development = async (prismaClient: PrismaClient) => {
   // start: users
   const user1 = await createUser(prismaClient, {
     username: "username1",

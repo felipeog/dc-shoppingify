@@ -13,7 +13,7 @@ app wasp {
   db: {
     system: PostgreSQL,
     seeds: [
-      import { devSeed } from "@server/dbSeeds.js",
+      import { development } from "@server/seeds/development.js",
     ]
   },
   dependencies: [

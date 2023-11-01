@@ -16,6 +16,7 @@ export const getCategories: GetCategories<void, Category[]> = async (
   }
 
   const categories = await context.entities.Category.findMany({
+    where: { userId: context.user.id },
     orderBy: { id: "asc" },
   });
 

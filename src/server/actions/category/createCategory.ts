@@ -2,8 +2,13 @@ import { Category } from "@wasp/entities";
 import { CreateCategory } from "@wasp/actions/types";
 import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
+import v from "validator";
 
-const categorySchema = z.object({
+const sanitizer = z.object({
+  name: z.string().trim().toLowerCase().refine(v.escape).refine(v.stripLow),
+});
+
+const validator = z.object({
   name: z
     .string()
     .min(3, "The category name must contain at least 3 characters.")
@@ -18,8 +23,10 @@ export const createCategory: CreateCategory<
     throw new HttpError(401);
   }
 
+  const sanitizedArgs = sanitizer.parse(args);
+
   try {
-    categorySchema.parse(args);
+    validator.parse(sanitizedArgs);
   } catch (error) {
     const firstErrorMessage =
       (error as ZodError).errors[0].message ?? "Invalid input.";
@@ -27,10 +34,21 @@ export const createCategory: CreateCategory<
     throw new HttpError(400, firstErrorMessage);
   }
 
-  // TODO: prevent case insensitive duplicates
+  const existingCategory = await context.entities.Category.findFirst({
+    where: {
+      name: { equals: sanitizedArgs.name },
+      AND: { userId: Number(context.user.id) },
+    },
+  });
+
+  if (existingCategory) {
+    throw new HttpError(400, "This category already exists.");
+  }
+
   const createdCategory = await context.entities.Category.create({
     data: {
-      name: args.name,
+      name: sanitizedArgs.name,
+      user: { connect: { id: Number(context.user.id) } },
     },
   });
 

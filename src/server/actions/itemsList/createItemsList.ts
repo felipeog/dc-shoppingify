@@ -2,6 +2,8 @@ import { CreateItemsList } from "@wasp/actions/types";
 import HttpError from "@wasp/core/HttpError.js";
 import { ItemsList } from "@wasp/entities";
 
+// TODO: fix
+
 export const createItemsList: CreateItemsList<
   Pick<ItemsList, "name">,
   ItemsList
@@ -10,12 +12,14 @@ export const createItemsList: CreateItemsList<
     throw new HttpError(401);
   }
 
-  const createdItemsList = await context.entities.ItemsList.create({
-    data: {
-      name: args.name || undefined,
-      user: { connect: { id: Number(context.user.id) } },
-    },
-  });
+  throw new HttpError(501, "Not implemented.");
 
-  return createdItemsList;
+  // const createdItemsList = await context.entities.ItemsList.create({
+  //   data: {
+  //     name: args.name || undefined,
+  //     user: { connect: { id: Number(context.user.id) } },
+  //   },
+  // });
+
+  // return createdItemsList;
 };

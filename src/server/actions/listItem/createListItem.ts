@@ -2,6 +2,8 @@ import { CreateListItem } from "@wasp/actions/types";
 import { ListItem } from "@wasp/entities";
 import HttpError from "@wasp/core/HttpError.js";
 
+// TODO: fix
+
 export const createListItem: CreateListItem<
   Pick<ListItem, "itemId" | "itemsListId">,
   ListItem
@@ -10,24 +12,26 @@ export const createListItem: CreateListItem<
     throw new HttpError(401);
   }
 
-  const itemsList = await context.entities.ItemsList.findUnique({
-    select: { listItems: { where: { itemId: Number(args.itemId) } } },
-    where: { id: Number(args.itemsListId) },
-  });
+  throw new HttpError(501, "Not implemented.");
 
-  if (itemsList && itemsList.listItems.length) {
-    throw new HttpError(
-      400,
-      "This list item is already in the items list, it can't be created."
-    );
-  }
+  // const itemsList = await context.entities.ItemsList.findUnique({
+  //   select: { listItems: { where: { itemId: Number(args.itemId) } } },
+  //   where: { id: Number(args.itemsListId) },
+  // });
 
-  const createdListItem = await context.entities.ListItem.create({
-    data: {
-      item: { connect: { id: Number(args.itemId) } },
-      itemsList: { connect: { id: Number(args.itemsListId) } },
-    },
-  });
+  // if (itemsList && itemsList.listItems.length) {
+  //   throw new HttpError(
+  //     400,
+  //     "This list item is already in the items list, it can't be created."
+  //   );
+  // }
 
-  return createdListItem;
+  // const createdListItem = await context.entities.ListItem.create({
+  //   data: {
+  //     item: { connect: { id: Number(args.itemId) } },
+  //     itemsList: { connect: { id: Number(args.itemsListId) } },
+  //   },
+  // });
+
+  // return createdListItem;
 };

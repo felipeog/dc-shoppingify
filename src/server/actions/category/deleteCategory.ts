@@ -10,10 +10,26 @@ export const deleteCategory: DeleteCategory<
     throw new HttpError(401);
   }
 
+  const categoryToDelete = await context.entities.Category.findFirst({
+    where: {
+      id: args.id,
+      AND: { userId: { equals: context.user.id } },
+    },
+  });
+
+  if (!categoryToDelete) {
+    throw new HttpError(404, "Category not found.");
+  }
+
   const itemsInCategory = await context.entities.Item.findMany({
     select: { id: true },
-    where: { categoryId: { equals: args.id } },
+    where: {
+      categoryId: { equals: args.id },
+      AND: { userId: { equals: context.user.id } },
+    },
   });
+
+  console.log({ itemsInCategory });
 
   if (itemsInCategory.length) {
     throw new HttpError(400, "This category is in use, it can't be deleted.");

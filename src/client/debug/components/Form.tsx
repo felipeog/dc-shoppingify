@@ -5,3 +5,7 @@ export function Form(props: React.ComponentProps<"form">) {
     </form>
   );
 }
+
+export function Input(props: React.ComponentProps<"input">) {
+  return <input {...props} className="bg-gray-900 border-gray-700" />;
+}

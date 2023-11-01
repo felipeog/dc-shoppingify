@@ -1,9 +1,9 @@
 import { Button } from "./components/Button";
 import { Category } from "@wasp/entities";
-import { Form } from "./components/Form";
 import { FormEvent, useState } from "react";
 import { Layout } from "./components/Layout";
 import { useQuery } from "@wasp/queries";
+import * as Form from "./components/Form";
 import * as Table from "./components/Table";
 import createCategory from "@wasp/actions/createCategory";
 import deleteCategory from "@wasp/actions/deleteCategory";
@@ -99,8 +99,8 @@ function CategoryForm(props: { isDisabled: boolean }) {
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <input
+    <Form.Form onSubmit={handleSubmit}>
+      <Form.Input
         placeholder="Name"
         name="categoryName"
         type="text"
@@ -111,7 +111,7 @@ function CategoryForm(props: { isDisabled: boolean }) {
       <Button type="submit" disabled={isFormDisabled}>
         Create category
       </Button>
-    </Form>
+    </Form.Form>
   );
 }
 

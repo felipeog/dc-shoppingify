@@ -19,12 +19,14 @@ app wasp {
   dependencies: [
     ("@tailwindcss/forms", "^0.5.3"),
     ("clsx", "^2.0.0"),
-    ("zod", "^3.22.4")
+    ("zod", "^3.22.4"),
+    ("validator", "^13.11.0"),
+    ("@types/validator", "^13.11.5"),
   ]
 }
 
 /* ========================================
-  start: entities 
+  start: entities
 ======================================== */
 
 entity User {=psl
@@ -32,6 +34,9 @@ entity User {=psl
   username    String      @unique
   password    String
   itemsLists  ItemsList[]
+  listItems   ListItem[]
+  items       Item[]
+  categories  Category[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 psl=}
@@ -55,28 +60,40 @@ entity ListItem {=psl
   itemId      Int
   itemsList   ItemsList @relation(fields: [itemsListId], references: [id])
   itemsListId Int
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  @@unique([itemId, itemsListId, userId])
 psl=}
 
 entity Item {=psl
   id          Int         @id @default(autoincrement())
-  name        String      @unique
+  name        String
   note        String?
   image       String?
   listItems   ListItem[]
   category    Category    @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  user        User        @relation(fields: [userId], references: [id])
+  userId      Int
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
+  @@unique([name, userId])
 psl=}
 
 entity Category {=psl
   id        Int       @id @default(autoincrement())
-  name      String    @unique
+  name      String
   items     Item[]
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@unique([name, userId])
 psl=}
 
 /* ========================================
@@ -84,7 +101,7 @@ psl=}
 ======================================== */
 
 /* ========================================
-  start: queries 
+  start: queries
 ======================================== */
 
 query getCategories {
@@ -112,7 +129,7 @@ query getListItems {
 ======================================== */
 
 /* ========================================
-  start: actions 
+  start: actions
 ======================================== */
 
 action createCategory {
@@ -180,7 +197,7 @@ action deleteListItem {
 ======================================== */
 
 /* ========================================
-  start: routes 
+  start: routes
 ======================================== */
 
 route RootRoute {

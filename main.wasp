@@ -267,7 +267,7 @@ route DebugCategoryRoute {
 }
 page DebugCategoryPage {
   authRequired: true,
-  component: import { DebugCategoryPage } from "@client/debug/DebugCategoryPage.tsx"
+  component: import { CategoryPage } from "@client/debug/pages/CategoryPage/index.tsx"
 }
 
 /* ========================================

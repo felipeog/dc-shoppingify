@@ -105,22 +105,22 @@ psl=}
 ======================================== */
 
 query getCategories {
-  fn: import { getCategories } from "@server/queries.js",
+  fn: import { getCategories } from "@server/queries/category/getCategories.js",
   entities: [Category]
 }
 
 query getItems {
-  fn: import { getItems } from "@server/queries.js",
+  fn: import { getItems } from "@server/queries/item/getItems.js",
   entities: [Item]
 }
 
 query getItemsLists {
-  fn: import { getItemsLists } from "@server/queries.js",
+  fn: import { getItemsLists } from "@server/queries/itemsList/getItemsLists.js",
   entities: [ItemsList]
 }
 
 query getListItems {
-  fn: import { getListItems } from "@server/queries.js",
+  fn: import { getListItems } from "@server/queries/listItem/getListItems.js",
   entities: [ListItem]
 }
 

@@ -29,6 +29,7 @@ export const getItems: GetItems<void, Item[]> = async (_args, context) => {
   }
 
   const items = await context.entities.Item.findMany({
+    where: { userId: context.user.id },
     orderBy: { id: "asc" },
   });
 
@@ -44,9 +45,9 @@ export const getItemsLists: GetItemsLists<
   }
 
   const itemsLists = await context.entities.ItemsList.findMany({
-    orderBy: { id: "asc" },
-    include: { listItems: true },
     where: { user: { id: context.user.id } },
+    include: { listItems: true },
+    orderBy: { id: "asc" },
   });
 
   return itemsLists;
@@ -62,7 +63,7 @@ export const getListItems: GetListItems<void, ListItem[]> = async (
 
   const listItems = await context.entities.ListItem.findMany({
     orderBy: { id: "asc" },
-    where: { itemsList: { userId: context.user.id } },
+    where: { userId: context.user.id },
   });
 
   return listItems;

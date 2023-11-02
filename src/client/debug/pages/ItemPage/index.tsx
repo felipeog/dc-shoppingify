@@ -31,7 +31,10 @@ export function ItemPage() {
             isDisabled={isFetching}
           />
           <br />
-          <ItemForm isDisabled={isFetching} />
+          <ItemForm
+            isDisabled={isFetching}
+            categories={categoriesResult.data ?? []}
+          />
         </>
       ) : (
         <p>

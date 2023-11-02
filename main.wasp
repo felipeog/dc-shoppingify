@@ -295,7 +295,7 @@ route DebugItemRoute {
 }
 page DebugItemPage {
   authRequired: true,
-  component: import { DebugItemPage } from "@client/debug/DebugItemPage.tsx"
+  component: import { ItemPage } from "@client/debug/pages/ItemPage/index.tsx"
 }
 
 route DebugCategoryRoute {

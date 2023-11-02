@@ -6,7 +6,7 @@ export function CategoriesTable(props: {
   categories: Category[];
   isDisabled: boolean;
 }) {
-  if (!props.categories?.length) {
+  if (!props.categories.length) {
     return <p>No categories</p>;
   }
 

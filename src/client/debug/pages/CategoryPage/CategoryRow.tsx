@@ -1,7 +1,6 @@
 import { Button } from "../../components/Button";
 import { Category } from "@wasp/entities";
-import { FormEvent } from "react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
 import deleteCategory from "@wasp/actions/deleteCategory";

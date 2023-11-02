@@ -1,14 +1,19 @@
+import "./Main.css";
+import { Link } from "@wasp/router";
 import { User } from "@wasp/entities";
 import logout from "@wasp/auth/logout";
-import "./Main.css";
 
 export function MainPage({ user }: { user: User }) {
   return (
-    <div className="container">
-      <main>
-        <pre>{JSON.stringify({ user })}</pre>
-        <button onClick={logout}>Logout</button>
-      </main>
-    </div>
+    <main>
+      <Link to="/debug">Debug</Link>
+
+      <br />
+      <br />
+      <br />
+
+      <pre>{JSON.stringify({ user }, null, 2)}</pre>
+      <button onClick={logout}>Logout</button>
+    </main>
   );
 }

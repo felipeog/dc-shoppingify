@@ -83,7 +83,7 @@ export function CategoryRow(props: {
       <Table.TableData>
         <Button onClick={handleUpdateButtonClick} disabled={isActionDisabled}>
           Update
-        </Button>
+        </Button>{" "}
         <Button onClick={handleDeleteButtonClick} disabled={isActionDisabled}>
           Delete
         </Button>

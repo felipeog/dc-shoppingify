@@ -54,8 +54,8 @@ export const createItem: CreateItem<
   const createdItem = await context.entities.Item.create({
     data: {
       name: sanitizedArgs.name,
-      note: sanitizedArgs.note || null,
-      image: sanitizedArgs.image || null,
+      note: sanitizedArgs.note,
+      image: sanitizedArgs.image,
       category: { connect: { id: Number(sanitizedArgs.categoryId) } },
       user: { connect: { id: Number(context.user.id) } },
     },

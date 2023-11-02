@@ -2,12 +2,16 @@ import { z } from "zod";
 import v from "validator";
 
 export const sanitizer = {
-  id: z.number(),
-  name: z.string().trim().toLowerCase().refine(v.escape).refine(v.stripLow),
+  id: z.coerce.number(),
+  name: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .transform((val) => v.stripLow(v.escape(val))),
 };
 
 export const validator = {
-  id: z.number().min(0, "Invalid ID."),
+  id: z.number().min(0, "Invalid category ID."),
   name: z
     .string()
     .min(3, "The category name must contain at least 3 characters.")

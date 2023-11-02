@@ -1,18 +1,15 @@
 import { Category } from "@wasp/entities";
 import { CreateCategory } from "@wasp/actions/types";
+import { sanitizer, validator } from "./validation.js";
 import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
-import v from "validator";
 
-const sanitizer = z.object({
-  name: z.string().trim().toLowerCase().refine(v.escape).refine(v.stripLow),
+const createSanitizer = z.object({
+  name: sanitizer.name,
 });
 
-const validator = z.object({
-  name: z
-    .string()
-    .min(3, "The category name must contain at least 3 characters.")
-    .max(100, "The category name must contain at most 100 characters."),
+const createValidator = z.object({
+  name: validator.name,
 });
 
 export const createCategory: CreateCategory<
@@ -23,10 +20,10 @@ export const createCategory: CreateCategory<
     throw new HttpError(401);
   }
 
-  const sanitizedArgs = sanitizer.parse(args);
+  const sanitizedArgs = createSanitizer.parse(args);
 
   try {
-    validator.parse(sanitizedArgs);
+    createValidator.parse(sanitizedArgs);
   } catch (error) {
     const firstErrorMessage =
       (error as ZodError).errors[0].message ?? "Invalid input.";

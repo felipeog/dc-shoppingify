@@ -7,5 +7,10 @@ export function Form(props: React.ComponentProps<"form">) {
 }
 
 export function Input(props: React.ComponentProps<"input">) {
-  return <input {...props} className="bg-gray-900 border-gray-700" />;
+  return (
+    <input
+      {...props}
+      className="bg-gray-900 border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+    />
+  );
 }

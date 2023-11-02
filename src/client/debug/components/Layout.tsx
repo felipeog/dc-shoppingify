@@ -45,7 +45,7 @@ export function Layout(props: TLayoutProps) {
 
   return (
     <main className="container mx-auto px-4">
-      <header className="flex justify-between items-center border-b border-gray-700">
+      <header className="flex justify-between items-center border-b border-slate-700">
         <nav>
           <ul className="flex gap-4">
             {routes.map((route) => (

@@ -11,9 +11,9 @@ export function TableRow(props: { children: React.ReactNode }) {
 }
 
 export function TableHeader(props: { children: React.ReactNode }) {
-  return <th className="border-b border-gray-700 p-2">{props.children}</th>;
+  return <th className="border-b border-slate-700 p-2">{props.children}</th>;
 }
 
 export function TableData(props: { children: React.ReactNode }) {
-  return <td className="border-b border-gray-800 p-2">{props.children}</td>;
+  return <td className="border-b border-slate-800 p-2">{props.children}</td>;
 }

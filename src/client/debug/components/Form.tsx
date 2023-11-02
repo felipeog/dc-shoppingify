@@ -14,3 +14,12 @@ export function Input(props: React.ComponentProps<"input">) {
     />
   );
 }
+
+export function Select(props: React.ComponentProps<"select">) {
+  return (
+    <select
+      {...props}
+      className="bg-slate-900 border-slate-700 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+    />
+  );
+}

@@ -1,3 +1,7 @@
+/* ============================================================================
+  CONFIGURATION
+============================================================================ */
+
 app wasp {
   wasp: {
     version: "^0.11.7"
@@ -25,9 +29,9 @@ app wasp {
   ]
 }
 
-/* ========================================
-  start: entities
-======================================== */
+/* ============================================================================
+  ENTITIES
+============================================================================ */
 
 entity User {=psl
   id          Int         @id @default(autoincrement())
@@ -45,7 +49,8 @@ entity ItemsList {=psl
   id        Int         @id @default(autoincrement())
   name      String      @default("Shopping list")
   listItems ListItem[]
-  state     String      @default("ONGOING") // "ONGOING" | "COMPLETED" | "CANCELLED" https://github.com/wasp-lang/wasp/issues/641
+  // "ONGOING" | "COMPLETED" | "CANCELLED" https://github.com/wasp-lang/wasp/issues/641
+  state     String      @default("ONGOING")
   user      User        @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime    @default(now())
@@ -96,41 +101,53 @@ entity Category {=psl
   @@unique([name, userId])
 psl=}
 
-/* ========================================
-  end: entities
-======================================== */
+/* ============================================================================
+  QUERIES
+============================================================================ */
 
-/* ========================================
-  start: queries
-======================================== */
+/* ==============================================
+  QUERIES: CATEGORY
+============================================== */
 
 query getCategories {
   fn: import { getCategories } from "@server/queries/category/getCategories.js",
   entities: [Category]
 }
 
+/* ==============================================
+  QUERIES: ITEM
+============================================== */
+
 query getItems {
   fn: import { getItems } from "@server/queries/item/getItems.js",
   entities: [Item]
 }
+
+/* ==============================================
+  QUERIES: ITEMSLIST
+============================================== */
 
 query getItemsLists {
   fn: import { getItemsLists } from "@server/queries/itemsList/getItemsLists.js",
   entities: [ItemsList]
 }
 
+/* ==============================================
+  QUERIES: LISTITEM
+============================================== */
+
 query getListItems {
   fn: import { getListItems } from "@server/queries/listItem/getListItems.js",
   entities: [ListItem]
 }
 
-/* ========================================
-  end: queries
-======================================== */
+/* ============================================================================
+  ACTIONS
+============================================================================ */
 
-/* ========================================
-  start: actions
-======================================== */
+/* ==============================================
+  ACTIONS: CATEGORY
+============================================== */
 
 action createCategory {
   fn: import { createCategory } from "@server/actions/category/createCategory.js",
@@ -147,6 +164,10 @@ action deleteCategory {
   entities: [Category, Item]
 }
 
+/* ==============================================
+  ACTIONS: ITEM
+============================================== */
+
 action createItem {
   fn: import { createItem } from "@server/actions/item/createItem.js",
   entities: [Item]
@@ -161,6 +182,10 @@ action deleteItem {
   fn: import { deleteItem } from "@server/actions/item/deleteItem.js",
   entities: [Item, ListItem]
 }
+
+/* ==============================================
+  ACTIONS: ITEMSLIST
+============================================== */
 
 action createItemsList {
   fn: import { createItemsList } from "@server/actions/itemsList/createItemsList.js",
@@ -177,6 +202,10 @@ action deleteItemsList {
   entities: [ItemsList]
 }
 
+/* ==============================================
+  ACTIONS: LISTITEM
+============================================== */
+
 action createListItem {
   fn: import { createListItem } from "@server/actions/listItem/createListItem.js",
   entities: [ListItem, ItemsList]
@@ -192,13 +221,13 @@ action deleteListItem {
   entities: [ListItem, ItemsList]
 }
 
-/* ========================================
-  end: actions
-======================================== */
+/* ============================================================================
+  ROUTES
+============================================================================ */
 
-/* ========================================
-  start: routes
-======================================== */
+/* ==============================================
+  ROUTES: ROOT
+============================================== */
 
 route RootRoute {
   path: "/",
@@ -208,6 +237,10 @@ page MainPage {
   authRequired: true,
   component: import { MainPage } from "@client/MainPage.tsx"
 }
+
+/* ==============================================
+  ROUTES: AUTHENTICATION
+============================================== */
 
 route SignupRoute {
   path: "/signup",
@@ -224,6 +257,10 @@ route LoginRoute {
 page LoginPage {
   component: import { LoginPage } from "@client/LoginPage.tsx"
 }
+
+/* ==============================================
+  ROUTES: DEBUG
+============================================== */
 
 route DebugRoute {
   path: "/debug",
@@ -269,7 +306,3 @@ page DebugCategoryPage {
   authRequired: true,
   component: import { CategoryPage } from "@client/debug/pages/CategoryPage/index.tsx"
 }
-
-/* ========================================
-  end: routes
-======================================== */

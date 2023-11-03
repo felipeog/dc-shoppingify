@@ -10,6 +10,8 @@ export const deleteItemsList: DeleteItemsList<
     throw new HttpError(401);
   }
 
+  // TODO: delete related list items
+
   // TODO: implement
   throw new HttpError(501, "Not implemented.");
 };

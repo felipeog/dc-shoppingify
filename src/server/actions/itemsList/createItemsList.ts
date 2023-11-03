@@ -12,6 +12,8 @@ export const createItemsList: CreateItemsList<
     throw new HttpError(401);
   }
 
+  // TODO: make sure there's only one `ONGOING` list at a time
+
   throw new HttpError(501, "Not implemented.");
 
   // const createdItemsList = await context.entities.ItemsList.create({

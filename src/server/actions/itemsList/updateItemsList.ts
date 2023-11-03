@@ -10,6 +10,8 @@ export const updateItemsList: UpdateItemsList<
     throw new HttpError(401);
   }
 
+  // TODO: make sure there's only one `ONGOING` list at a time
+
   // TODO: implement
   throw new HttpError(501, "Not implemented.");
 };

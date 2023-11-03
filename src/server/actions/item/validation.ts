@@ -9,12 +9,16 @@ export const sanitizer = {
     .toLowerCase()
     .transform((val) => v.stripLow(v.escape(val))),
   note: z
-    .string()
-    .trim()
+    .preprocess(
+      (val) => (typeof val === "string" ? val : ""),
+      z.string().trim()
+    )
     .transform((val) => (v.isEmpty(val) ? null : v.stripLow(v.escape(val)))),
   image: z
-    .string()
-    .trim()
+    .preprocess(
+      (val) => (typeof val === "string" ? val : ""),
+      z.string().trim()
+    )
     .transform((val) => (v.isEmpty(val) ? null : val)),
   categoryId: z.coerce.number(),
 };

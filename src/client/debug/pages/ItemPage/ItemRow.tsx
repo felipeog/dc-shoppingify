@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
 import deleteItem from "@wasp/actions/deleteItem";
+import updateItem from "@wasp/actions/updateItem";
 
 export function ItemRow(props: {
   item: Item;
@@ -32,24 +33,34 @@ export function ItemRow(props: {
   }
 
   async function handleUpdateButtonClick() {
-    // setIsLoading(true);
-    // try {
-    //   const updatedCategory = await updateCategory({
-    //     id: props.category.id,
-    //     name: form.categoryName,
-    //   });
-    //   setForm({
-    //     categoryName: updatedCategory.name,
-    //   });
-    // } catch (error: any) {
-    //   setForm({
-    //     categoryName: props.category.name,
-    //   });
-    //   console.error(error);
-    //   window.alert("Error: " + error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+
+    try {
+      const updatedItem = await updateItem({
+        id: props.item.id,
+        name: form.itemName,
+        note: form.note,
+        image: form.image,
+        categoryId: form.categoryId,
+      });
+      setForm({
+        itemName: updatedItem.name,
+        note: updatedItem.note,
+        image: updatedItem.image,
+        categoryId: updatedItem.categoryId,
+      });
+    } catch (error: any) {
+      setForm({
+        itemName: props.item.name,
+        note: props.item.note,
+        image: props.item.image,
+        categoryId: props.item.categoryId,
+      });
+      console.error(error);
+      window.alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function handleDeleteButtonClick() {

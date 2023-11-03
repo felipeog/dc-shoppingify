@@ -1,8 +1,16 @@
 import { DeleteItem } from "@wasp/actions/types";
 import { Item } from "@wasp/entities";
+import { sanitizer, validator } from "./validation.js";
+import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
 
-// TODO: fix
+const deleteSanitizer = z.object({
+  id: sanitizer.id,
+});
+
+const deleteValidator = z.object({
+  id: validator.id,
+});
 
 export const deleteItem: DeleteItem<Pick<Item, "id">, Item> = async (
   args,
@@ -12,20 +20,43 @@ export const deleteItem: DeleteItem<Pick<Item, "id">, Item> = async (
     throw new HttpError(401);
   }
 
-  throw new HttpError(501, "Not implemented.");
+  const sanitizedArgs = deleteSanitizer.parse(args);
 
-  // const listItemsinItem = await context.entities.ListItem.findMany({
-  //   select: { id: true },
-  //   where: { itemId: { equals: args.id } },
-  // });
+  try {
+    deleteValidator.parse(sanitizedArgs);
+  } catch (error) {
+    const firstErrorMessage =
+      (error as ZodError).errors[0].message ?? "Invalid input.";
 
-  // if (listItemsinItem.length) {
-  //   throw new HttpError(400, "This item is in use, it can't be deleted.");
-  // }
+    throw new HttpError(400, firstErrorMessage);
+  }
 
-  // const deletedItem = await context.entities.Item.delete({
-  //   where: { id: args.id },
-  // });
+  const itemToDelete = await context.entities.Item.findFirst({
+    where: {
+      id: sanitizedArgs.id,
+      AND: { userId: { equals: context.user.id } },
+    },
+  });
 
-  // return deletedItem;
+  if (!itemToDelete) {
+    throw new HttpError(404, "Item not found.");
+  }
+
+  const listItemsinItem = await context.entities.ListItem.findMany({
+    select: { id: true },
+    where: {
+      itemId: { equals: sanitizedArgs.id },
+      AND: { userId: Number(context.user.id) },
+    },
+  });
+
+  if (listItemsinItem.length) {
+    throw new HttpError(400, "This item is in use, it can't be deleted.");
+  }
+
+  const deletedItem = await context.entities.Item.delete({
+    where: { id: sanitizedArgs.id },
+  });
+
+  return deletedItem;
 };

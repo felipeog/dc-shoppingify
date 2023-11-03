@@ -3,6 +3,7 @@ import { Category, Item } from "@wasp/entities";
 import { FormEvent, useState } from "react";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
+import deleteItem from "@wasp/actions/deleteItem";
 
 export function ItemRow(props: {
   item: Item;
@@ -52,15 +53,16 @@ export function ItemRow(props: {
   }
 
   async function handleDeleteButtonClick() {
-    // setIsLoading(true);
-    // try {
-    //   await deleteCategory({ id: props.category.id });
-    // } catch (error: any) {
-    //   console.error(error);
-    //   window.alert("Error: " + error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+
+    try {
+      await deleteItem({ id: props.item.id });
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

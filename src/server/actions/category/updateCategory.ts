@@ -33,6 +33,17 @@ export const updateCategory: UpdateCategory<
     throw new HttpError(400, firstErrorMessage);
   }
 
+  const categoryToUpdate = await context.entities.Category.findFirst({
+    where: {
+      id: sanitizedArgs.id,
+      AND: { userId: { equals: context.user.id } },
+    },
+  });
+
+  if (!categoryToUpdate) {
+    throw new HttpError(404, "Category not found.");
+  }
+
   const existingCategory = await context.entities.Category.findFirst({
     where: {
       name: { equals: sanitizedArgs.name },

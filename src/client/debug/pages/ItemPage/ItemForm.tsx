@@ -65,6 +65,8 @@ export function ItemForm(props: {
         disabled={isFormDisabled}
       />
       <Form.Select name="category" disabled={isFormDisabled} required>
+        <option value="">Category</option>
+
         {props.categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.name}

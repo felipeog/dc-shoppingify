@@ -28,9 +28,6 @@ export const createItem: CreateItem<
 
   const sanitizedArgs = createSanitizer.parse(args);
 
-  console.log(JSON.stringify(args, null, 2));
-  console.log(JSON.stringify(sanitizedArgs, null, 2));
-
   try {
     createValidator.parse(sanitizedArgs);
   } catch (error) {

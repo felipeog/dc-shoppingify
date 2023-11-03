@@ -1,3 +1,1 @@
-import { EItemsListState } from "./types";
-
-export const ITEMS_LIST_STATES = Object.values(EItemsListState);
+export const ITEMS_LIST_STATES = ["ONGOING", "COMPLETED", "CANCELLED"] as const;

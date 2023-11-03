@@ -277,7 +277,7 @@ route DebugItemsListRoute {
 }
 page DebugItemsListPage {
   authRequired: true,
-  component: import { DebugItemsListPage } from "@client/debug/DebugItemsListPage.tsx"
+  component: import { ItemsListPage } from "@client/debug/pages/ItemsListPage/index.tsx"
 }
 
 route DebugListItemRoute {

@@ -1,27 +1,61 @@
 import { CreateItemsList } from "@wasp/actions/types";
-import HttpError from "@wasp/core/HttpError.js";
+import { EItemsListState } from "@wasp/shared/types.js";
 import { ItemsList } from "@wasp/entities";
+import { sanitizer, validator } from "./validation.js";
+import { z, ZodError } from "zod";
+import HttpError from "@wasp/core/HttpError.js";
 
-// TODO: fix
+const createSanitizer = z.object({
+  name: sanitizer.name,
+  state: sanitizer.state,
+});
+
+const createValidator = z.object({
+  name: validator.name,
+  state: validator.state,
+});
 
 export const createItemsList: CreateItemsList<
-  Pick<ItemsList, "name">,
+  Pick<ItemsList, "name" | "state">,
   ItemsList
 > = async (args, context) => {
   if (!context.user) {
     throw new HttpError(401);
   }
 
-  // TODO: make sure there's only one `ONGOING` list at a time
+  const sanitizedArgs = createSanitizer.parse(args);
 
-  throw new HttpError(501, "Not implemented.");
+  try {
+    createValidator.parse(sanitizedArgs);
+  } catch (error) {
+    const firstErrorMessage =
+      (error as ZodError).errors[0].message ?? "Invalid input.";
 
-  // const createdItemsList = await context.entities.ItemsList.create({
-  //   data: {
-  //     name: args.name || undefined,
-  //     user: { connect: { id: Number(context.user.id) } },
-  //   },
-  // });
+    throw new HttpError(400, firstErrorMessage);
+  }
 
-  // return createdItemsList;
+  if (!sanitizedArgs.state || sanitizedArgs.state === EItemsListState.ONGOING) {
+    const existingOngoingItemsList = await context.entities.ItemsList.findFirst(
+      {
+        where: {
+          state: { equals: EItemsListState.ONGOING },
+          AND: { userId: Number(context.user.id) },
+        },
+      }
+    );
+
+    if (existingOngoingItemsList) {
+      throw new HttpError(400, "An ongoing list already exists.");
+    }
+  }
+
+  const createdItemsList = await context.entities.ItemsList.create({
+    data: {
+      name: sanitizedArgs.name,
+      state: sanitizedArgs.state,
+      user: { connect: { id: Number(context.user.id) } },
+    },
+  });
+
+  return createdItemsList;
 };

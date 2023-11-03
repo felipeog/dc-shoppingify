@@ -1,8 +1,8 @@
 import { Button } from "../../components/Button";
 import { FormEvent, useState } from "react";
-import * as Form from "../../components/Form";
-// import createItem from "@wasp/actions/createItem";
 import { ITEMS_LIST_STATES } from "@wasp/shared/constants";
+import * as Form from "../../components/Form";
+import createItemsList from "@wasp/actions/createItemsList";
 
 export function ItemsListForm(props: { isDisabled: boolean }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,29 +12,25 @@ export function ItemsListForm(props: { isDisabled: boolean }) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // setIsLoading(true);
+    setIsLoading(true);
 
-    // try {
-    //   const target = event.target as HTMLFormElement;
-    //   const image = target.image.value;
-    //   const name = target.itemName.value;
-    //   const note = target.note.value;
-    //   const categoryId = target.category.value;
+    try {
+      const target = event.target as HTMLFormElement;
+      const name = target.itemsListName.value;
+      const state = target.state.value;
 
-    //   await createItem({
-    //     image,
-    //     name,
-    //     note,
-    //     categoryId,
-    //   });
+      await createItemsList({
+        name,
+        state,
+      });
 
-    //   target.reset();
-    // } catch (err: any) {
-    //   console.error(err);
-    //   window.alert("Error: " + err.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+      target.reset();
+    } catch (err: any) {
+      console.error(err);
+      window.alert("Error: " + err.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -45,9 +41,8 @@ export function ItemsListForm(props: { isDisabled: boolean }) {
         type="text"
         defaultValue=""
         disabled={isFormDisabled}
-        required
       />
-      <Form.Select name="state" disabled={isFormDisabled} required>
+      <Form.Select name="state" disabled={isFormDisabled}>
         <option value="">State</option>
 
         {ITEMS_LIST_STATES.map((itemsListState) => (

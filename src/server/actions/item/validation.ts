@@ -13,13 +13,15 @@ export const sanitizer = {
       (val) => (typeof val === "string" ? val : ""),
       z.string().trim()
     )
-    .transform((val) => (v.isEmpty(val) ? null : v.stripLow(v.escape(val)))),
+    .transform((val) =>
+      v.isEmpty(val) ? undefined : v.stripLow(v.escape(val))
+    ),
   image: z
     .preprocess(
       (val) => (typeof val === "string" ? val : ""),
       z.string().trim()
     )
-    .transform((val) => (v.isEmpty(val) ? null : val)),
+    .transform((val) => (v.isEmpty(val) ? undefined : val)),
   categoryId: z.coerce.number(),
 };
 
@@ -33,7 +35,7 @@ export const validator = {
     .string()
     .min(3, "The note must contain at least 3 characters.")
     .max(100, "The note must contain at most 100 characters.")
-    .nullable(),
-  image: z.string().refine(v.isURL, "Invalid image URL.").nullable(),
+    .optional(),
+  image: z.string().refine(v.isURL, "Invalid image URL.").optional(),
   categoryId: z.number().min(0, "Invalid category ID."),
 };

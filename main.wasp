@@ -199,7 +199,7 @@ action updateItemsList {
 
 action deleteItemsList {
   fn: import { deleteItemsList } from "@server/actions/itemsList/deleteItemsList.js",
-  entities: [ItemsList]
+  entities: [ItemsList, ListItem]
 }
 
 /* ==============================================

@@ -4,7 +4,7 @@ import { ItemsList } from "@wasp/entities";
 import { ITEMS_LIST_STATES } from "@wasp/shared/constants";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
-// import deleteItem from "@wasp/actions/deleteItem";
+import deleteItemsList from "@wasp/actions/deleteItemsList";
 // import updateItem from "@wasp/actions/updateItem";
 
 export function ItemsListRow(props: {
@@ -61,15 +61,16 @@ export function ItemsListRow(props: {
   }
 
   async function handleDeleteButtonClick() {
-    // setIsLoading(true);
-    // try {
-    //   await deleteItem({ id: props.itemsList.id });
-    // } catch (error: any) {
-    //   console.error(error);
-    //   window.alert("Error: " + error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+
+    try {
+      await deleteItemsList({ id: props.itemsList.id });
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

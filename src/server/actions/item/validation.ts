@@ -26,7 +26,7 @@ export const sanitizer = {
 };
 
 export const validator = {
-  id: z.number().min(0, "Invalid item ID."),
+  id: z.number().min(1, "Invalid item ID."),
   name: z
     .string()
     .min(3, "The item name must contain at least 3 characters.")
@@ -37,5 +37,5 @@ export const validator = {
     .max(100, "The note must contain at most 100 characters.")
     .optional(),
   image: z.string().refine(v.isURL, "Invalid image URL.").optional(),
-  categoryId: z.number().min(0, "Invalid category ID."),
+  categoryId: z.number().min(1, "Invalid category ID."),
 };

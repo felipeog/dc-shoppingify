@@ -11,7 +11,7 @@ export const sanitizer = {
 };
 
 export const validator = {
-  id: z.number().min(0, "Invalid category ID."),
+  id: z.number().min(1, "Invalid category ID."),
   name: z
     .string()
     .min(3, "The category name must contain at least 3 characters.")

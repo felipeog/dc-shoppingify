@@ -3,6 +3,7 @@ import { z } from "zod";
 import v from "validator";
 
 export const sanitizer = {
+  id: z.coerce.number(),
   name: z
     .preprocess(
       (val) => (typeof val === "string" ? val : ""),
@@ -22,6 +23,7 @@ export const sanitizer = {
 };
 
 export const validator = {
+  id: z.number().min(1, "Invalid items list ID."),
   name: z
     .string()
     .min(3, "The items list name must contain at least 3 characters.")

@@ -15,8 +15,8 @@ export function ItemPage() {
   const isError = itemsResult.isError || categoriesResult.isError;
   const error = isError
     ? Error(
-        `Item: ${itemsResult.error?.message ?? "No error."}` +
-          ", " +
+        `Items: ${itemsResult.error?.message ?? "No error."}` +
+          " - " +
           `Categories: ${categoriesResult.error?.message ?? "No error."}`
       )
     : null;

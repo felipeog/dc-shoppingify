@@ -1,11 +1,11 @@
 import { Button } from "../../components/Button";
 import { FormEvent, useState } from "react";
-import { ItemsList } from "@wasp/entities";
 import { ITEMS_LIST_STATES } from "@wasp/shared/constants";
+import { ItemsList } from "@wasp/entities";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
 import deleteItemsList from "@wasp/actions/deleteItemsList";
-// import updateItem from "@wasp/actions/updateItem";
+import updateItemsList from "@wasp/actions/updateItemsList";
 
 export function ItemsListRow(props: {
   itemsList: ItemsList;
@@ -31,33 +31,28 @@ export function ItemsListRow(props: {
   }
 
   async function handleUpdateButtonClick() {
-    // setIsLoading(true);
-    // try {
-    //   const updatedItem = await updateItem({
-    //     id: props.itemsList.id,
-    //     name: form.itemName,
-    //     note: form.note,
-    //     image: form.image,
-    //     categoryId: form.categoryId,
-    //   });
-    //   setForm({
-    //     itemName: updatedItem.name,
-    //     note: updatedItem.note,
-    //     image: updatedItem.image,
-    //     categoryId: updatedItem.categoryId,
-    //   });
-    // } catch (error: any) {
-    //   setForm({
-    //     itemName: props.itemsList.name,
-    //     note: props.itemsList.note,
-    //     image: props.itemsList.image,
-    //     categoryId: props.itemsList.categoryId,
-    //   });
-    //   console.error(error);
-    //   window.alert("Error: " + error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+
+    try {
+      const updatedItemsList = await updateItemsList({
+        id: props.itemsList.id,
+        name: form.itemsListName,
+        state: form.state,
+      });
+      setForm({
+        itemsListName: updatedItemsList.name,
+        state: updatedItemsList.state,
+      });
+    } catch (error: any) {
+      setForm({
+        itemsListName: props.itemsList.name,
+        state: props.itemsList.state,
+      });
+      console.error(error);
+      window.alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   async function handleDeleteButtonClick() {

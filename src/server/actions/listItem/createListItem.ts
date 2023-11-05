@@ -19,7 +19,8 @@ const createValidator = z.object({
 });
 
 export const createListItem: CreateListItem<
-  Pick<ListItem, "itemId" | "itemsListId" | "amount" | "isDone">,
+  Pick<ListItem, "itemId" | "itemsListId"> &
+    Partial<Pick<ListItem, "amount" | "isDone">>,
   ListItem
 > = async (args, context) => {
   if (!context.user) {

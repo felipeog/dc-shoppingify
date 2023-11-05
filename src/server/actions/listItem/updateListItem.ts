@@ -21,7 +21,8 @@ const updateValidator = z.object({
 });
 
 export const updateListItem: UpdateListItem<
-  Pick<ListItem, "id" | "amount" | "isDone" | "itemId" | "itemsListId">,
+  Pick<ListItem, "id"> &
+    Partial<Pick<ListItem, "amount" | "isDone" | "itemId" | "itemsListId">>,
   ListItem
 > = async (args, context) => {
   if (!context.user) {

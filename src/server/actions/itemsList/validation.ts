@@ -2,6 +2,8 @@ import { EItemsListState } from "@wasp/shared/types.js";
 import { z } from "zod";
 import v from "validator";
 
+// TODO: update to match list item's validation
+
 export const sanitizer = {
   id: z.coerce.number(),
   name: z

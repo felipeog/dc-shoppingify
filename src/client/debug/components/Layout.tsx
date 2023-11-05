@@ -44,35 +44,39 @@ export function Layout(props: TLayoutProps) {
   const currentRoute = routes.find((route) => route.to === location.pathname);
 
   return (
-    <main className="container mx-auto px-4">
-      <header className="flex justify-between items-center border-b border-slate-700">
-        <nav>
-          <ul className="flex gap-4">
-            {routes.map((route) => (
-              <li key={route.to}>
-                <Link
-                  to={route.to}
-                  className={clsx("block py-4", {
-                    underline: route.to === currentRoute?.to,
-                  })}
-                >
-                  {route.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+    <div className="bg-slate-900 text-slate-50 h-screen">
+      <main className="container mx-auto px-4">
+        <header className="flex justify-between items-center border-b border-slate-700">
+          <nav>
+            <ul className="flex gap-4">
+              {routes.map((route) => (
+                <li key={route.to}>
+                  <Link
+                    to={route.to}
+                    className={clsx("block py-4", {
+                      underline: route.to === currentRoute?.to,
+                    })}
+                  >
+                    {route.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <p>{Boolean(isFetching) ? "Fetching..." : "Idle"}</p>
-      </header>
+          <p className="text-slate-600">
+            {Boolean(isFetching) ? "Fetching..." : "Idle"}
+          </p>
+        </header>
 
-      <section className="mt-6">
-        <h1 className="text-2xl mb-4">{currentRoute?.label}</h1>
+        <section className="mt-6">
+          <h1 className="text-2xl mb-4">{currentRoute?.label}</h1>
 
-        <QueryContainer isLoading={props.isLoading} error={props.error}>
-          {props.children}
-        </QueryContainer>
-      </section>
-    </main>
+          <QueryContainer isLoading={props.isLoading} error={props.error}>
+            {props.children}
+          </QueryContainer>
+        </section>
+      </main>
+    </div>
   );
 }

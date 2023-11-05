@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import { ItemsList, Item, ListItem } from "@wasp/entities";
 import * as Form from "../../components/Form";
 import * as Table from "../../components/Table";
-// import deleteItem from "@wasp/actions/deleteItem";
+import deleteListItem from "@wasp/actions/deleteListItem";
 // import updateItem from "@wasp/actions/updateItem";
 
 export function ListItemRow(props: {
@@ -65,15 +65,16 @@ export function ListItemRow(props: {
   }
 
   async function handleDeleteButtonClick() {
-    // setIsLoading(true);
-    // try {
-    //   await deleteItem({ id: props.item.id });
-    // } catch (error: any) {
-    //   console.error(error);
-    //   window.alert("Error: " + error.message);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+
+    try {
+      await deleteListItem({ id: props.listItem.id });
+    } catch (error: any) {
+      console.error(error);
+      window.alert("Error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (

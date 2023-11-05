@@ -1,17 +1,15 @@
 import { DeleteListItem } from "@wasp/actions/types";
 import { ListItem } from "@wasp/entities";
+import { sanitizer, validator } from "./validation.js";
 import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
 
-const sanitizer = z.object({
-  id: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
+const deleteSanitizer = z.object({
+  id: sanitizer.id,
 });
 
-const validator = z.object({
-  id: z.number().min(1, "Invalid list item ID."),
+const deleteValidator = z.object({
+  id: validator.id,
 });
 
 export const deleteListItem: DeleteListItem<
@@ -22,10 +20,10 @@ export const deleteListItem: DeleteListItem<
     throw new HttpError(401);
   }
 
-  const sanitizedArgs = sanitizer.parse(args);
+  const sanitizedArgs = deleteSanitizer.parse(args);
 
   try {
-    validator.parse(sanitizedArgs);
+    deleteValidator.parse(sanitizedArgs);
   } catch (error) {
     const firstErrorMessage =
       (error as ZodError).errors[0].message ?? "Invalid input.";

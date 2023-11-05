@@ -1,33 +1,21 @@
 import { CreateListItem } from "@wasp/actions/types";
 import { ListItem } from "@wasp/entities";
+import { sanitizer, validator } from "./validation.js";
 import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
 
-const sanitizer = z.object({
-  amount: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
-  isDone: z.preprocess(
-    (value) =>
-      ["true", "false"].includes(String(value)) ? Boolean(value) : undefined,
-    z.union([z.boolean(), z.undefined()])
-  ),
-  itemId: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
-  itemsListId: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
+const createSanitizer = z.object({
+  amount: sanitizer.amount,
+  isDone: sanitizer.isDone,
+  itemId: sanitizer.itemId,
+  itemsListId: sanitizer.itemsListId,
 });
 
-const validator = z.object({
-  amount: z.number().min(1, "The minimum amount is 1.").optional(),
-  isDone: z.boolean().optional(),
-  itemId: z.number().min(1, "Invalid item ID."),
-  itemsListId: z.number().min(1, "Invalid items list ID."),
+const createValidator = z.object({
+  amount: validator.amount.optional(),
+  isDone: validator.isDone.optional(),
+  itemId: validator.itemId,
+  itemsListId: validator.itemsListId,
 });
 
 export const createListItem: CreateListItem<
@@ -38,10 +26,10 @@ export const createListItem: CreateListItem<
     throw new HttpError(401);
   }
 
-  const sanitizedArgs = sanitizer.parse(args);
+  const sanitizedArgs = createSanitizer.parse(args);
 
   try {
-    validator.parse(sanitizedArgs);
+    createValidator.parse(sanitizedArgs);
   } catch (error) {
     const firstErrorMessage =
       (error as ZodError).errors[0].message ?? "Invalid input.";

@@ -1,38 +1,23 @@
 import { ListItem } from "@wasp/entities";
 import { UpdateListItem } from "@wasp/actions/types";
+import { sanitizer, validator } from "./validation.js";
 import { z, ZodError } from "zod";
 import HttpError from "@wasp/core/HttpError.js";
 
-const sanitizer = z.object({
-  id: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
-  amount: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
-  isDone: z.preprocess(
-    (value) =>
-      ["true", "false"].includes(String(value)) ? Boolean(value) : undefined,
-    z.union([z.boolean(), z.undefined()])
-  ),
-  itemId: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
-  itemsListId: z.preprocess(
-    (value) => (!value ? undefined : Number(value)),
-    z.union([z.number(), z.undefined()])
-  ),
+const updateSanitizer = z.object({
+  id: sanitizer.id,
+  amount: sanitizer.amount,
+  isDone: sanitizer.isDone,
+  itemId: sanitizer.itemId,
+  itemsListId: sanitizer.itemsListId,
 });
 
-const validator = z.object({
-  id: z.number().min(1, "Invalid list item ID."),
-  amount: z.number().min(1, "The minimum amount is 1.").optional(),
-  isDone: z.boolean().optional(),
-  itemId: z.number().min(1, "Invalid item ID.").optional(),
-  itemsListId: z.number().min(1, "Invalid items list ID.").optional(),
+const updateValidator = z.object({
+  id: validator.id,
+  amount: validator.amount.optional(),
+  isDone: validator.isDone.optional(),
+  itemId: validator.itemId.optional(),
+  itemsListId: validator.itemsListId.optional(),
 });
 
 export const updateListItem: UpdateListItem<
@@ -43,11 +28,11 @@ export const updateListItem: UpdateListItem<
     throw new HttpError(401);
   }
 
-  const sanitizedArgs = sanitizer.parse(args);
+  const sanitizedArgs = updateSanitizer.parse(args);
   console.log({ sanitizedArgs });
 
   try {
-    validator.parse(sanitizedArgs);
+    updateValidator.parse(sanitizedArgs);
   } catch (error) {
     const firstErrorMessage =
       (error as ZodError).errors[0].message ?? "Invalid input.";
@@ -152,7 +137,7 @@ export const updateListItem: UpdateListItem<
         amount: sanitizedArgs.amount,
         isDone: sanitizedArgs.isDone,
         item: { connect: { id: sanitizedArgs.itemId } },
-        itemsList: { connect: { id: sanitizedArgs.itemsListId } },
+        itemsList: { connect: { id: listItemToUpdate.itemsListId } },
       },
     });
 
@@ -191,7 +176,7 @@ export const updateListItem: UpdateListItem<
       data: {
         amount: sanitizedArgs.amount,
         isDone: sanitizedArgs.isDone,
-        item: { connect: { id: sanitizedArgs.itemId } },
+        item: { connect: { id: listItemToUpdate.itemId } },
         itemsList: { connect: { id: sanitizedArgs.itemsListId } },
       },
     });
@@ -204,8 +189,8 @@ export const updateListItem: UpdateListItem<
     data: {
       amount: sanitizedArgs.amount,
       isDone: sanitizedArgs.isDone,
-      item: { connect: { id: sanitizedArgs.itemId } },
-      itemsList: { connect: { id: sanitizedArgs.itemsListId } },
+      item: { connect: { id: listItemToUpdate.itemId } },
+      itemsList: { connect: { id: listItemToUpdate.itemsListId } },
     },
   });
 

@@ -213,12 +213,12 @@ action createListItem {
 
 action updateListItem {
   fn: import { updateListItem } from "@server/actions/listItem/updateListItem.js",
-  entities: [ListItem, ItemsList]
+  entities: [ListItem, Item, ItemsList]
 }
 
 action deleteListItem {
   fn: import { deleteListItem } from "@server/actions/listItem/deleteListItem.js",
-  entities: [ListItem, ItemsList]
+  entities: [ListItem]
 }
 
 /* ============================================================================

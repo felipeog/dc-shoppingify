@@ -6,7 +6,7 @@ import logout from "@wasp/auth/logout";
 export function MainPage({ user }: { user: User }) {
   return (
     <main>
-      <Link to="/debug">Debug</Link>
+      <Link to="/debug/category">Debug</Link>
 
       <br />
       <br />

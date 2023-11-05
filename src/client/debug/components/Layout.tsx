@@ -13,11 +13,7 @@ type TLayoutProps = {
 const routes = [
   {
     to: "/" as "/",
-    label: "Home",
-  },
-  {
-    to: "/debug" as "/debug",
-    label: "Debug",
+    label: "Back to Shoppingify",
   },
   {
     to: "/debug/category" as "/debug/category",

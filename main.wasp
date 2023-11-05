@@ -262,15 +262,6 @@ page LoginPage {
   ROUTES: DEBUG
 ============================================== */
 
-route DebugRoute {
-  path: "/debug",
-  to: DebugPage
-}
-page DebugPage {
-  authRequired: true,
-  component: import { DebugPage } from "@client/debug/DebugPage.tsx"
-}
-
 route DebugItemsListRoute {
   path: "/debug/items-list",
   to: DebugItemsListPage

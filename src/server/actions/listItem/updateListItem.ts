@@ -30,7 +30,6 @@ export const updateListItem: UpdateListItem<
   }
 
   const sanitizedArgs = updateSanitizer.parse(args);
-  console.log({ sanitizedArgs });
 
   try {
     updateValidator.parse(sanitizedArgs);

@@ -226,16 +226,34 @@ action deleteListItem {
 ============================================================================ */
 
 /* ==============================================
-  ROUTES: ROOT
+  ROUTES: SHOPPINGIFY
 ============================================== */
 
-route RootRoute {
+route ItemsRoute {
   path: "/",
-  to: MainPage
+  to: ItemsPage
 }
-page MainPage {
+page ItemsPage {
   authRequired: true,
-  component: import { MainPage } from "@client/pages/MainPage/index.tsx"
+  component: import { ItemsPage } from "@client/pages/ItemsPage/index.tsx"
+}
+
+route HistoryRoute {
+  path: "/history",
+  to: HistoryPage
+}
+page HistoryPage {
+  authRequired: true,
+  component: import { HistoryPage } from "@client/pages/HistoryPage/index.tsx"
+}
+
+route StatisticsRoute {
+  path: "/statistics",
+  to: StatisticsPage
+}
+page StatisticsPage {
+  authRequired: true,
+  component: import { StatisticsPage } from "@client/pages/StatisticsPage/index.tsx"
 }
 
 /* ==============================================

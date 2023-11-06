@@ -10,16 +10,15 @@ function ItemsListSidebar() {
     state.selectedRightSidebar.value = ERightSidebar.ITEM_FORM;
   }
 
-  function handleDetailsButtonClick() {
-    state.selectedRightSidebar.value = ERightSidebar.ITEM_DETAILS;
-  }
-
   return (
     <>
       <p>ItemsListSidebar</p>
 
-      <button onClick={handleCreateButtonClick}>Create a new item</button>
-      <button onClick={handleDetailsButtonClick}>Get item details</button>
+      {state.hasOngoingItemsList.value ? (
+        <button onClick={handleCreateButtonClick}>Create a new item</button>
+      ) : (
+        <button disabled>Create a new list</button>
+      )}
     </>
   );
 }

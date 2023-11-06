@@ -136,6 +136,11 @@ query getItemsLists {
   entities: [ItemsList]
 }
 
+query getOngoingItemsList {
+  fn: import { getOngoingItemsList } from "@server/queries/itemsList/getOngoingItemsList.js",
+  entities: [ItemsList]
+}
+
 /* ==============================================
   QUERIES: LISTITEM
 ============================================== */

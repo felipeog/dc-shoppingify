@@ -1,6 +1,6 @@
-import { LeftSidebar } from "./LeftSidebar";
-import { MainContent } from "./MainContent";
-import { RightSidebar } from "./RightSidebar";
+import { LeftSidebar } from "../LeftSidebar";
+import { MainContent } from "../MainContent";
+import { RightSidebar } from "../RightSidebar";
 
 type TLayoutProps = {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
-import { ERightSidebar } from "../types";
+import { ERightSidebar } from "../../types";
 import { Link } from "@wasp/router";
-import { useAppState } from "../state";
+import { useAppState } from "../../state";
 import { useLocation } from "react-router-dom";
 
 const routes = [

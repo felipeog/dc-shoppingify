@@ -1,5 +1,7 @@
 import { clsx } from "clsx";
+import { ERightSidebar } from "../types";
 import { Link } from "@wasp/router";
+import { useAppState } from "../state";
 import { useLocation } from "react-router-dom";
 
 const routes = [
@@ -18,13 +20,23 @@ const routes = [
 ];
 
 export function LeftSidebar() {
+  const state = useAppState();
   const location = useLocation();
 
   const currentRoute = routes.find((route) => route.to === location.pathname);
 
+  function handleCartButtonClick() {
+    if (state.selectedRightSidebar.value === ERightSidebar.ITEMS_LIST) {
+      state.selectedRightSidebar.value = null;
+    } else {
+      state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
+    }
+  }
+
   return (
-    <section className="bg-white flex-shrink-0">
-      LeftSidebar
+    <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24">
+      <p>Shoppingify</p>
+
       <nav>
         <ul>
           {routes.map((route) => (
@@ -41,6 +53,9 @@ export function LeftSidebar() {
           ))}
         </ul>
       </nav>
+
+      {/* TODO: break into separate component */}
+      <button onClick={handleCartButtonClick}>Cart</button>
     </section>
   );
 }

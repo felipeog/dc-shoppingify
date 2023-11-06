@@ -1,17 +1,40 @@
 import { createAppState, AppStateContext } from "./state";
+import { ItemsList } from "@wasp/entities";
+import { useEffect, useState } from "react";
+import createItemsList from "@wasp/actions/createItemsList";
 import getOngoingItemsList from "@wasp/queries/getOngoingItemsList";
-import { useQuery } from "@wasp/queries";
 
 type TRootProps = {
   children: React.ReactNode;
 };
 
 export function Root(props: TRootProps) {
-  const {
-    data: ongoingItemsList,
-    isLoading,
-    error,
-  } = useQuery(getOngoingItemsList);
+  const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList | null>(
+    null
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    async function getOrCreateOngoingItemsList() {
+      try {
+        // using a query without `useQuery` requires `queryCacheKey: string[]`
+        let ongoingItemsList = await getOngoingItemsList([""]);
+
+        if (!ongoingItemsList) {
+          ongoingItemsList = await createItemsList({});
+        }
+
+        setOngoingItemsList(ongoingItemsList);
+      } catch (error) {
+        setError(error as Error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    getOrCreateOngoingItemsList();
+  }, []);
 
   if (isLoading) {
     return <p>Loading...</p>;

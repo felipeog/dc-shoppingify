@@ -127,6 +127,11 @@ query getItems {
   entities: [Item]
 }
 
+query getItemsByCategory {
+  fn: import { getItemsByCategory } from "@server/queries/item/getItemsByCategory.js",
+  entities: [Item]
+}
+
 /* ==============================================
   QUERIES: ITEMSLIST
 ============================================== */

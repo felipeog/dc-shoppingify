@@ -59,7 +59,7 @@ const panel = {
 };
 
 export function ItemsList() {
-  // TODO: move to global state to be preserve on sidebar change
+  // TODO: move to global state to be preserved on sidebar change
   const [currentPanel, setCurrentPanel] = useState(EItemsListPanel.COMPLETING);
   const state = useAppState();
   const listItemsResult = useQuery(getListItemsFromItemsList);

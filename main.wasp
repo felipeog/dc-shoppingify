@@ -150,6 +150,11 @@ query getListItems {
   entities: [ListItem]
 }
 
+query getListItemsFromItemsList {
+  fn: import { getListItemsFromItemsList } from "@server/queries/listItem/getListItemsFromItemsList.js",
+  entities: [ListItem]
+}
+
 /* ============================================================================
   ACTIONS
 ============================================================================ */

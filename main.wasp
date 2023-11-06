@@ -260,6 +260,15 @@ page StatisticsPage {
   component: import { StatisticsPage } from "@client/pages/StatisticsPage/index.tsx"
 }
 
+route UserRoute {
+  path: "/user",
+  to: UserPage
+}
+page UserPage {
+  authRequired: true,
+  component: import { UserPage } from "@client/pages/UserPage/index.tsx"
+}
+
 /* ==============================================
   ROUTES: AUTHENTICATION
 ============================================== */

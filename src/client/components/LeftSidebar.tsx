@@ -35,7 +35,7 @@ export function LeftSidebar() {
 
   return (
     <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24">
-      <p>Shoppingify</p>
+      <Link to="/user">User</Link>
 
       <nav>
         <ul>

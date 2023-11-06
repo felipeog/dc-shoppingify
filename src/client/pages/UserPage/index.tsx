@@ -7,8 +7,6 @@ type TUserPageProps = {
 };
 
 export function UserPage(props: TUserPageProps) {
-  console.log(props);
-
   return (
     <Layout>
       <ul>

@@ -45,8 +45,6 @@ export function Root(props: TRootProps) {
     return <p>Error: {error.message}</p>;
   }
 
-  console.log({ ongoingItemsList });
-
   return (
     <AppStateContext.Provider value={createAppState({ ongoingItemsList })}>
       {props.children}

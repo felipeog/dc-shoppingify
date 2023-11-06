@@ -2,6 +2,7 @@ import { ERightSidebar } from "../../types";
 import { useAppState } from "../../state";
 import { useState, FormEvent } from "react";
 import createItem from "@wasp/actions/createItem";
+import createCategory from "@wasp/actions/createCategory";
 import getCategories from "@wasp/queries/getCategories";
 import { useQuery } from "@wasp/queries";
 
@@ -9,8 +10,10 @@ import { useQuery } from "@wasp/queries";
 // TODO: complete form
 
 export function ItemForm() {
-  const [isCreatingitem, setIsCreatingItem] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [isCreatingItem, setIsCreatingItem] = useState(false);
+  const [itemError, setItemError] = useState<Error | null>(null);
+  const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+  const [categoryError, setCategoryError] = useState<Error | null>(null);
   const state = useAppState();
   const categoriesResult = useQuery(getCategories);
 
@@ -18,7 +21,7 @@ export function ItemForm() {
     state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
   }
 
-  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleItemFormSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setIsCreatingItem(true);
@@ -33,26 +36,54 @@ export function ItemForm() {
       target.reset();
     } catch (error: any) {
       console.error(error);
-      setError(error);
+      setItemError(error);
     } finally {
       setIsCreatingItem(false);
     }
   }
 
-  const isLoading = isCreatingitem || categoriesResult.isLoading;
+  async function handleCategoryFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setIsCreatingCategory(true);
+
+    try {
+      const target = event.target as HTMLFormElement;
+      const name = target.categoryName.value;
+
+      await createCategory({ name });
+
+      target.reset();
+    } catch (error: any) {
+      console.error(error);
+      setCategoryError(error);
+    } finally {
+      setIsCreatingCategory(false);
+    }
+  }
+
+  const isLoading =
+    isCreatingItem || isCreatingCategory || categoriesResult.isLoading;
 
   // TODO: improve render
   return (
     <section className="bg-white flex-shrink-0 w-96">
       {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {itemError && <p>Error: {itemError.message}</p>}
+      {categoryError && <p>Error: {categoryError.message}</p>}
       {categoriesResult.error && <p>Error: {categoriesResult.error.message}</p>}
 
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleItemFormSubmit}>
         <label>
           Name
-          <input type="text" name="itemName" required />
+          <input
+            type="text"
+            name="itemName"
+            required
+            placeholder="Enter a name"
+          />
         </label>
+
         <label>
           Category
           <select name="categoryId" required>
@@ -70,6 +101,25 @@ export function ItemForm() {
         <button onClick={handleCancelButtonClick}>Cancel</button>
         <button type="submit">Create</button>
       </form>
+
+      {/* TODO: create category select input that's able to create categories */}
+      <details>
+        <summary>Create category</summary>
+
+        <form onSubmit={handleCategoryFormSubmit}>
+          <label>
+            Name
+            <input
+              type="text"
+              name="categoryName"
+              required
+              placeholder="Enter a name"
+            />
+          </label>
+
+          <button type="submit">Create</button>
+        </form>
+      </details>
     </section>
   );
 }

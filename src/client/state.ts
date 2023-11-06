@@ -4,7 +4,7 @@ import { ItemsList } from ".prisma/client";
 import { signal, computed } from "@preact/signals-react";
 
 type TCreateAppStateArgs = {
-  ongoingItemsList: ItemsList | null;
+  ongoingItemsList: ItemsList;
 };
 
 export function createAppState(args: TCreateAppStateArgs) {

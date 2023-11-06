@@ -9,9 +9,7 @@ type TRootProps = {
 };
 
 export function Root(props: TRootProps) {
-  const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList | null>(
-    null
-  );
+  const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -43,6 +41,10 @@ export function Root(props: TRootProps) {
 
   if (error) {
     return <p>Error: {error.message}</p>;
+  }
+
+  if (!ongoingItemsList) {
+    return <p>Error: Couldn't set items list</p>;
   }
 
   return (

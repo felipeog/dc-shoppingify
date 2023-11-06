@@ -76,7 +76,7 @@ export function ItemsList() {
 
   return (
     <section className="bg-orange-100 flex-shrink-0 w-96">
-      <p>{state.ongoingItemsList.value?.name}</p>
+      <p>{state.ongoingItemsList.value.name}</p>
       <button onClick={handleToggleButton}>Toggle panel</button>
 
       <QueryContainer

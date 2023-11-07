@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { ERightSidebar } from "./types";
+import { ERightSidebar, ERightSidebarItemsList } from "./types";
 import { ItemsList } from ".prisma/client";
 import { signal, computed } from "@preact/signals-react";
 
@@ -14,6 +14,10 @@ export function createAppState(args: TCreateAppStateArgs) {
     return Boolean(ongoingItemsList.value);
   });
 
+  const selectedRightSidebarItemsList = signal<ERightSidebarItemsList>(
+    ERightSidebarItemsList.COMPLETING
+  );
+
   const selectedRightSidebar = signal<ERightSidebar | null>(
     ERightSidebar.ITEMS_LIST
   );
@@ -23,6 +27,7 @@ export function createAppState(args: TCreateAppStateArgs) {
   });
 
   return {
+    selectedRightSidebarItemsList,
     ongoingItemsList,
     hasOngoingItemsList,
     selectedRightSidebar,

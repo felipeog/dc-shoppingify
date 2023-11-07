@@ -1,5 +1,5 @@
-import { ERightSidebar } from "../../types";
-import { useAppState } from "../../state";
+import { ERightSidebar } from "../../../../types";
+import { useAppState } from "../../../../state";
 import { useState, FormEvent } from "react";
 import createItem from "@wasp/actions/createItem";
 import createCategory from "@wasp/actions/createCategory";
@@ -67,7 +67,7 @@ export function ItemForm() {
 
   // TODO: improve render
   return (
-    <section className="bg-white flex-shrink-0 w-96">
+    <section className="bg-white flex-shrink-0 w-96 overflow-x-hidden overflow-y-auto">
       {isLoading && <p>Loading...</p>}
       {itemError && <p>Error: {itemError.message}</p>}
       {categoryError && <p>Error: {categoryError.message}</p>}

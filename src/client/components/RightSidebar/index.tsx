@@ -1,7 +1,7 @@
 import { ERightSidebar } from "../../types";
-import { ItemDetails } from "./ItemDetails";
-import { ItemForm } from "./ItemForm";
-import { ItemsList } from "./ItemsList";
+import { ItemDetails } from "./components/ItemDetails";
+import { ItemForm } from "./components/ItemForm";
+import { ItemsList } from "./components/ItemsList";
 import { useAppState } from "../../state";
 
 const sidebar = {

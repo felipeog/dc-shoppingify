@@ -3,3 +3,8 @@ export enum ERightSidebar {
   ITEM_FORM = "ITEM_FORM",
   ITEM_DETAILS = "ITEM_DETAILS",
 }
+
+export enum ERightSidebarItemsList {
+  EDITING = "EDITING",
+  COMPLETING = "COMPLETING",
+}

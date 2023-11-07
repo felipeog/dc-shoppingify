@@ -1,5 +1,5 @@
-import { ERightSidebar } from "../../types";
-import { useAppState } from "../../state";
+import { ERightSidebar } from "../../../../types";
+import { useAppState } from "../../../../state";
 
 export function ItemDetails() {
   const state = useAppState();
@@ -9,7 +9,7 @@ export function ItemDetails() {
   }
 
   return (
-    <section className="bg-white flex-shrink-0 w-96">
+    <section className="bg-white flex-shrink-0 w-96 overflow-x-hidden overflow-y-auto">
       <p>ItemDetailsSidebar</p>
 
       <button onClick={handleBackButtonClick}>Back</button>

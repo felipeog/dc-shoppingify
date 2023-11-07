@@ -34,7 +34,7 @@ export function LeftSidebar() {
   }
 
   return (
-    <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24">
+    <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24 overflow-x-hidden overflow-y-auto">
       <Link to="/user">User</Link>
 
       <nav>

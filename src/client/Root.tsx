@@ -11,8 +11,6 @@ type TRootProps = {
 };
 
 export function Root(props: TRootProps) {
-  console.log({ props });
-
   const { data: user } = useAuth();
   const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList>();
   const [isLoading, setIsLoading] = useState(true);
@@ -21,11 +19,9 @@ export function Root(props: TRootProps) {
   useEffect(() => {
     async function getOrCreateOngoingItemsList() {
       try {
-        // NOTE: using a query without `useQuery` requires `queryCacheKey: string[]`?
         let ongoingItemsList = await getOngoingItemsList([""]);
 
         if (!ongoingItemsList) {
-          // NOTE: `args` is required even when empty?
           ongoingItemsList = await createItemsList({});
         }
 

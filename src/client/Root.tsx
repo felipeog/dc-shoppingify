@@ -1,14 +1,19 @@
 import { createAppState, AppStateContext } from "./state";
 import { ItemsList } from "@wasp/entities";
+import { Layout } from "./components/Layout";
 import { useEffect, useState } from "react";
 import createItemsList from "@wasp/actions/createItemsList";
 import getOngoingItemsList from "@wasp/queries/getOngoingItemsList";
+import useAuth from "@wasp/auth/useAuth";
 
 type TRootProps = {
   children: React.ReactNode;
 };
 
 export function Root(props: TRootProps) {
+  console.log({ props });
+
+  const { data: user } = useAuth();
   const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -32,8 +37,14 @@ export function Root(props: TRootProps) {
       }
     }
 
-    getOrCreateOngoingItemsList();
-  }, []);
+    if (user) {
+      getOrCreateOngoingItemsList();
+    }
+  }, [user]);
+
+  if (!user) {
+    return props.children;
+  }
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -49,7 +60,7 @@ export function Root(props: TRootProps) {
 
   return (
     <AppStateContext.Provider value={createAppState({ ongoingItemsList })}>
-      {props.children}
+      <Layout>{props.children}</Layout>
     </AppStateContext.Provider>
   );
 }

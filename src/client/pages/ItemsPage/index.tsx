@@ -1,6 +1,5 @@
 import "./index.css";
 import { Item } from "@wasp/entities";
-import { Layout } from "../../components/Layout";
 import { QueryContainer } from "../../components/QueryContainer";
 import { useAppState } from "../../state";
 import { useQuery } from "@wasp/queries";
@@ -34,36 +33,32 @@ export function ItemsPage() {
 
   // TODO: improve render
   return (
-    <Layout>
-      <QueryContainer
-        isLoading={itemsByCategoryResult.isLoading}
-        error={itemsByCategoryResult.error}
-      >
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
+    <QueryContainer
+      isLoading={itemsByCategoryResult.isLoading}
+      error={itemsByCategoryResult.error}
+    >
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
 
-        {Boolean(itemsByCategoryResult.data?.length) ? (
-          <ul>
-            {itemsByCategoryResult.data?.map((categoryGroup) => (
-              <li key={categoryGroup.category.id}>
-                Category: {categoryGroup.category.name}
-                <ul>
-                  {categoryGroup.items.map((item) => (
-                    <li key={item.id}>
-                      Item: {item.name}{" "}
-                      <button onClick={getAddButtonClickHandler(item)}>
-                        +
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No items</p>
-        )}
-      </QueryContainer>
-    </Layout>
+      {Boolean(itemsByCategoryResult.data?.length) ? (
+        <ul>
+          {itemsByCategoryResult.data?.map((categoryGroup) => (
+            <li key={categoryGroup.category.id}>
+              Category: {categoryGroup.category.name}
+              <ul>
+                {categoryGroup.items.map((item) => (
+                  <li key={item.id}>
+                    Item: {item.name}{" "}
+                    <button onClick={getAddButtonClickHandler(item)}>+</button>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No items</p>
+      )}
+    </QueryContainer>
   );
 }

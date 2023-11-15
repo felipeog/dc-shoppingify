@@ -10,12 +10,11 @@ import getItemsByCategory from "@wasp/queries/getItemsByCategory";
 
 export function ItemsPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
   const state = useAppState();
   const itemsByCategoryResult = useQuery(getItemsByCategory);
 
   function getDetailsButtonClickHandler(item: Item) {
-    return async () => {
+    return () => {
       state.selectedRightSidebarItemDetails.value = item;
       state.selectedRightSidebar.value = ERightSidebar.ITEM_DETAILS;
     };
@@ -47,9 +46,6 @@ export function ItemsPage() {
       isLoading={itemsByCategoryResult.isLoading}
       error={itemsByCategoryResult.error}
     >
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-
       {Boolean(itemsByCategoryResult.data?.length) ? (
         <ul>
           {itemsByCategoryResult.data?.map((categoryGroup) => (
@@ -62,7 +58,12 @@ export function ItemsPage() {
                     <button onClick={getDetailsButtonClickHandler(item)}>
                       {item.name}
                     </button>
-                    <button onClick={getAddButtonClickHandler(item)}>+</button>
+                    <button
+                      onClick={getAddButtonClickHandler(item)}
+                      disabled={isLoading}
+                    >
+                      +
+                    </button>
                   </li>
                 ))}
               </ul>

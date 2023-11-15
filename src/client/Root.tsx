@@ -1,5 +1,8 @@
+import "./Root.css";
+import "react-toastify/dist/ReactToastify.css";
 import { AppStateContext, state } from "./state";
 import { Layout } from "./components/Layout";
+import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import createItemsList from "@wasp/actions/createItemsList";
 import getOngoingItemsList from "@wasp/queries/getOngoingItemsList";
@@ -59,6 +62,7 @@ export function Root(props: TRootProps) {
   return (
     <AppStateContext.Provider value={state}>
       <Layout>{props.children}</Layout>
+      <ToastContainer position="top-center" hideProgressBar draggable={false} />
     </AppStateContext.Provider>
   );
 }

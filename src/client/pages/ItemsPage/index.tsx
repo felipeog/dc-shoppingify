@@ -1,7 +1,7 @@
-import "./index.css";
 import { ERightSidebar } from "../../types";
 import { Item } from "@wasp/entities";
 import { QueryContainer } from "../../components/QueryContainer";
+import { toast } from "react-toastify";
 import { useAppState } from "../../state";
 import { useQuery } from "@wasp/queries";
 import { useState } from "react";
@@ -30,12 +30,13 @@ export function ItemsPage() {
           itemId: item.id,
           itemsListId: state.ongoingItemsList.value.id,
         });
+
+        state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
       } catch (error: any) {
         console.error(error);
-        setError(error);
+        toast.info(error.message);
       } finally {
         setIsLoading(false);
-        state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
       }
     };
   }

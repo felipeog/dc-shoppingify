@@ -1,19 +1,18 @@
 import { ERightSidebar } from "../../../../types";
+import { toast } from "react-toastify";
 import { useAppState } from "../../../../state";
-import { useState, FormEvent } from "react";
-import createItem from "@wasp/actions/createItem";
-import createCategory from "@wasp/actions/createCategory";
-import getCategories from "@wasp/queries/getCategories";
 import { useQuery } from "@wasp/queries";
+import { useState, FormEvent } from "react";
+import createCategory from "@wasp/actions/createCategory";
+import createItem from "@wasp/actions/createItem";
+import getCategories from "@wasp/queries/getCategories";
 
 // TODO: style
 // TODO: complete form
 
 export function ItemForm() {
   const [isCreatingItem, setIsCreatingItem] = useState(false);
-  const [itemError, setItemError] = useState<Error | null>(null);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
-  const [categoryError, setCategoryError] = useState<Error | null>(null);
   const state = useAppState();
   const categoriesResult = useQuery(getCategories);
 
@@ -36,7 +35,7 @@ export function ItemForm() {
       target.reset();
     } catch (error: any) {
       console.error(error);
-      setItemError(error);
+      toast.info(error.message);
     } finally {
       setIsCreatingItem(false);
     }
@@ -56,7 +55,7 @@ export function ItemForm() {
       target.reset();
     } catch (error: any) {
       console.error(error);
-      setCategoryError(error);
+      toast.info(error.message);
     } finally {
       setIsCreatingCategory(false);
     }
@@ -69,8 +68,6 @@ export function ItemForm() {
   return (
     <section className="bg-white flex-shrink-0 w-96 overflow-x-hidden overflow-y-auto">
       {isLoading && <p>Loading...</p>}
-      {itemError && <p>Error: {itemError.message}</p>}
-      {categoryError && <p>Error: {categoryError.message}</p>}
       {categoriesResult.error && <p>Error: {categoriesResult.error.message}</p>}
 
       <form onSubmit={handleItemFormSubmit}>

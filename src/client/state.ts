@@ -1,36 +1,25 @@
-import { Category, Item, ItemsList } from "@wasp/entities";
 import { createContext, useContext } from "react";
 import { ERightSidebar, ERightSidebarItemsList } from "./types";
-import { signal, computed } from "@preact/signals-react";
+import { Item, ItemsList } from "@wasp/entities";
+import { signal } from "@preact/signals-react";
 
-type TCreateAppStateArgs = {
-  ongoingItemsList: ItemsList;
-};
-
+const ongoingItemsList = signal<ItemsList>({} as ItemsList);
+const selectedRightSidebar = signal<ERightSidebar | null>(
+  ERightSidebar.ITEMS_LIST
+);
+const selectedRightSidebarItemDetails = signal<Item | null>(null);
 const selectedRightSidebarItemsList = signal<ERightSidebarItemsList>(
   ERightSidebarItemsList.COMPLETING
 );
 
-const selectedRightSidebar = signal<ERightSidebar | null>(
-  ERightSidebar.ITEMS_LIST
-);
+export const state = {
+  ongoingItemsList,
+  selectedRightSidebar,
+  selectedRightSidebarItemDetails,
+  selectedRightSidebarItemsList,
+};
 
-const selectedRightSidebarItemDetails = signal<Item | null>(null);
-
-export function createAppState(args: TCreateAppStateArgs) {
-  const ongoingItemsList = signal(args.ongoingItemsList);
-
-  return {
-    ongoingItemsList,
-    selectedRightSidebarItemsList,
-    selectedRightSidebar,
-    selectedRightSidebarItemDetails,
-  };
-}
-
-export const AppStateContext = createContext(
-  {} as ReturnType<typeof createAppState>
-);
+export const AppStateContext = createContext({} as typeof state);
 
 export function useAppState() {
   const state = useContext(AppStateContext);

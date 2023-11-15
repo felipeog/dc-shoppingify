@@ -1,7 +1,6 @@
-import { createAppState, AppStateContext } from "./state";
-import { ItemsList } from "@wasp/entities";
+import { AppStateContext, state } from "./state";
 import { Layout } from "./components/Layout";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import createItemsList from "@wasp/actions/createItemsList";
 import getOngoingItemsList from "@wasp/queries/getOngoingItemsList";
 import useAuth from "@wasp/auth/useAuth";
@@ -12,13 +11,11 @@ type TRootProps = {
 
 export function Root(props: TRootProps) {
   const { data: user } = useAuth();
-  const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const isReady = useRef(false);
 
   useEffect(() => {
-    if (isReady.current) {
+    if (state.ongoingItemsList.value.id) {
       return;
     }
 
@@ -30,11 +27,10 @@ export function Root(props: TRootProps) {
           ongoingItemsList = await createItemsList({});
         }
 
-        setOngoingItemsList(ongoingItemsList);
+        state.ongoingItemsList.value = ongoingItemsList;
       } catch (error) {
         setError(error as Error);
       } finally {
-        isReady.current = true;
         setIsLoading(false);
       }
     }
@@ -56,12 +52,12 @@ export function Root(props: TRootProps) {
     return <p>Error: {error.message}</p>;
   }
 
-  if (!ongoingItemsList) {
+  if (!state.ongoingItemsList.value.id) {
     return <p>Error: Couldn't set items list</p>;
   }
 
   return (
-    <AppStateContext.Provider value={createAppState({ ongoingItemsList })}>
+    <AppStateContext.Provider value={state}>
       <Layout>{props.children}</Layout>
     </AppStateContext.Provider>
   );

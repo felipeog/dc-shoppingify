@@ -1,12 +1,12 @@
 import "./index.css";
-import { Category, Item } from "@wasp/entities";
+import { ERightSidebar } from "../../types";
+import { Item } from "@wasp/entities";
 import { QueryContainer } from "../../components/QueryContainer";
 import { useAppState } from "../../state";
 import { useQuery } from "@wasp/queries";
 import { useState } from "react";
 import createListItem from "@wasp/actions/createListItem";
 import getItemsByCategory from "@wasp/queries/getItemsByCategory";
-import { ERightSidebar } from "../../types";
 
 export function ItemsPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +14,7 @@ export function ItemsPage() {
   const state = useAppState();
   const itemsByCategoryResult = useQuery(getItemsByCategory);
 
-  function getDetailsButtonClickHandler(category: Category, item: Item) {
+  function getDetailsButtonClickHandler(item: Item) {
     return async () => {
       state.selectedRightSidebarItemDetails.value = item;
       state.selectedRightSidebar.value = ERightSidebar.ITEM_DETAILS;
@@ -35,6 +35,7 @@ export function ItemsPage() {
         setError(error);
       } finally {
         setIsLoading(false);
+        state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
       }
     };
   }
@@ -57,14 +58,9 @@ export function ItemsPage() {
                 {categoryGroup.items.map((item) => (
                   <li key={item.id}>
                     Item:{" "}
-                    <button
-                      onClick={getDetailsButtonClickHandler(
-                        categoryGroup.category,
-                        item
-                      )}
-                    >
+                    <button onClick={getDetailsButtonClickHandler(item)}>
                       {item.name}
-                    </button>{" "}
+                    </button>
                     <button onClick={getAddButtonClickHandler(item)}>+</button>
                   </li>
                 ))}

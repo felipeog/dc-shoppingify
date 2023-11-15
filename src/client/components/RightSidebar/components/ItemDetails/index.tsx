@@ -6,6 +6,7 @@ export function ItemDetails() {
 
   function handleBackButtonClick() {
     state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
+    state.selectedRightSidebarItemDetails.value = null;
   }
 
   return (
@@ -13,6 +14,11 @@ export function ItemDetails() {
       <p>ItemDetailsSidebar</p>
 
       <button onClick={handleBackButtonClick}>Back</button>
+
+      <pre>
+        {JSON.stringify(state.selectedRightSidebarItemDetails.value, null, 2)}
+      </pre>
+
       <button disabled>Delete</button>
       <button disabled>Add to list</button>
     </section>

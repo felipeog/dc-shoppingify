@@ -1,7 +1,7 @@
 import { createAppState, AppStateContext } from "./state";
 import { ItemsList } from "@wasp/entities";
 import { Layout } from "./components/Layout";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import createItemsList from "@wasp/actions/createItemsList";
 import getOngoingItemsList from "@wasp/queries/getOngoingItemsList";
 import useAuth from "@wasp/auth/useAuth";
@@ -15,8 +15,13 @@ export function Root(props: TRootProps) {
   const [ongoingItemsList, setOngoingItemsList] = useState<ItemsList>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const isReady = useRef(false);
 
   useEffect(() => {
+    if (isReady.current) {
+      return;
+    }
+
     async function getOrCreateOngoingItemsList() {
       try {
         let ongoingItemsList = await getOngoingItemsList([""]);
@@ -29,6 +34,7 @@ export function Root(props: TRootProps) {
       } catch (error) {
         setError(error as Error);
       } finally {
+        isReady.current = true;
         setIsLoading(false);
       }
     }

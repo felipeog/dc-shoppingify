@@ -11,6 +11,9 @@ import { Link } from "@wasp/router";
 import { Tooltip } from "react-tooltip";
 import { useAppState } from "../../state";
 import { useLocation } from "react-router-dom";
+import theme from "tailwindcss/defaultTheme";
+
+console.log(theme.fontSize.sm[0]);
 
 const routes = [
   {
@@ -84,7 +87,15 @@ export function LeftSidebar() {
       </nav>
 
       {routes.map((route) => (
-        <Tooltip key={route.id} id={route.id} place="right" />
+        <Tooltip
+          key={route.id}
+          id={route.id}
+          place="right"
+          style={{
+            fontSize: theme.fontSize.xs[0],
+            padding: `${theme.spacing[0.5]} ${theme.spacing["2"]}`,
+          }}
+        />
       ))}
 
       {/* TODO: break into separate component */}

@@ -48,9 +48,12 @@ export function LeftSidebar() {
   }
 
   return (
-    <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24 overflow-x-hidden overflow-y-auto">
-      <Link to="/user">
-        <GrUser />
+    <section className="bg-white flex-shrink-0 flex flex-col justify-between w-24 overflow-x-hidden overflow-y-auto py-6">
+      <Link
+        to="/user"
+        className="self-center flex justify-center items-center shrink-0 w-10 h-10 bg-blue-950 rounded-full"
+      >
+        <GrUser size="1.2rem" className="text-white" />
       </Link>
 
       <nav>
@@ -85,8 +88,11 @@ export function LeftSidebar() {
       ))}
 
       {/* TODO: break into separate component */}
-      <button onClick={handleCartButtonClick}>
-        <GrCart />
+      <button
+        onClick={handleCartButtonClick}
+        className="self-center flex justify-center items-center shrink-0 w-10 h-10 bg-orange-400 rounded-full"
+      >
+        <GrCart size="1.2rem" className="text-white" />
       </button>
     </section>
   );

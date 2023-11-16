@@ -5,8 +5,7 @@ type TMainContentProps = {
 export function MainContent(props: TMainContentProps) {
   return (
     <section className="bg-cyan-50 flex-grow overflow-x-hidden overflow-y-auto">
-      MainContent
-      {props.children}
+      <div className="max-w-screen-xl mx-auto p-4">{props.children}</div>
     </section>
   );
 }

@@ -42,37 +42,44 @@ export function ItemsPage() {
 
   // TODO: improve render
   return (
-    <QueryContainer
-      isLoading={itemsByCategoryResult.isLoading}
-      error={itemsByCategoryResult.error}
-    >
-      {Boolean(itemsByCategoryResult.data?.length) ? (
-        <ul>
-          {itemsByCategoryResult.data?.map((categoryGroup) => (
-            <li key={categoryGroup.category.id}>
-              Category: {categoryGroup.category.name}
-              <ul>
-                {categoryGroup.items.map((item) => (
-                  <li key={item.id}>
-                    Item:{" "}
-                    <button onClick={getDetailsButtonClickHandler(item)}>
-                      {item.name}
-                    </button>
-                    <button
-                      onClick={getAddButtonClickHandler(item)}
-                      disabled={isLoading}
-                    >
-                      +
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No items</p>
-      )}
-    </QueryContainer>
+    <>
+      <h1 className="text-2xl">
+        <span className="text-orange-400">Shoppingify</span> allows you to take
+        your shopping list wherever you go
+      </h1>
+      <QueryContainer
+        isLoading={itemsByCategoryResult.isLoading}
+        error={itemsByCategoryResult.error}
+      >
+        {Boolean(itemsByCategoryResult.data?.length) ? (
+          <ul className="grid gap-10 mt-12">
+            {itemsByCategoryResult.data?.map((categoryGroup) => (
+              <li key={categoryGroup.category.id}>
+                <p>{categoryGroup.category.name}</p>
+
+                <ul className="grid gap-6 mt-4 grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))]">
+                  {categoryGroup.items.map((item) => (
+                    <li key={item.id} className="card">
+                      <button onClick={getDetailsButtonClickHandler(item)}>
+                        {item.name}
+                      </button>
+
+                      <button
+                        onClick={getAddButtonClickHandler(item)}
+                        disabled={isLoading}
+                      >
+                        +
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No items</p>
+        )}
+      </QueryContainer>
+    </>
   );
 }

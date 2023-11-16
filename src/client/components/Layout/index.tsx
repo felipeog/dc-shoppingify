@@ -8,7 +8,7 @@ type TLayoutProps = {
 
 export function Layout(props: TLayoutProps) {
   return (
-    <main className="h-screen flex overflow-hidden">
+    <main className="min-w-[960px] h-screen flex overflow-hidden">
       <LeftSidebar />
       <MainContent>{props.children}</MainContent>
       <RightSidebar />

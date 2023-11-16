@@ -1,4 +1,5 @@
 import { ERightSidebar } from "../../types";
+import { GrAdd } from "react-icons/gr";
 import { Item } from "@wasp/entities";
 import { QueryContainer } from "../../components/QueryContainer";
 import { toast } from "react-toastify";
@@ -40,35 +41,49 @@ export function ItemsPage() {
     };
   }
 
-  // TODO: improve render
+  const hasPopulatedCategories = Boolean(itemsByCategoryResult.data?.length);
+
+  // TODO: broke into separate components
   return (
     <>
-      <h1 className="text-2xl">
+      <h1 className="text-2xl max-w-lg">
         <span className="text-orange-400">Shoppingify</span> allows you to take
         your shopping list wherever you go
       </h1>
+
       <QueryContainer
         isLoading={itemsByCategoryResult.isLoading}
         error={itemsByCategoryResult.error}
       >
-        {Boolean(itemsByCategoryResult.data?.length) ? (
+        {!hasPopulatedCategories && <p>No items</p>}
+
+        {hasPopulatedCategories && (
           <ul className="grid gap-10 mt-12">
             {itemsByCategoryResult.data?.map((categoryGroup) => (
               <li key={categoryGroup.category.id}>
-                <p>{categoryGroup.category.name}</p>
+                <p className="text-lg first-letter:capitalize">
+                  {categoryGroup.category.name}
+                </p>
 
-                <ul className="grid gap-6 mt-4 grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))]">
+                <ul className="grid gap-6 mt-4 items-start grid-cols-[repeat(auto-fill,_minmax(180px,_1fr))]">
                   {categoryGroup.items.map((item) => (
-                    <li key={item.id} className="card">
-                      <button onClick={getDetailsButtonClickHandler(item)}>
+                    <li
+                      key={item.id}
+                      className="card flex justify-between items-start p-0"
+                    >
+                      <button
+                        className="grow text-left px-4 py-3 hover:text-gray-500 transition-colors first-letter:capitalize"
+                        onClick={getDetailsButtonClickHandler(item)}
+                      >
                         {item.name}
                       </button>
 
                       <button
+                        className="group shrink-0 px-4 py-3 disabled:cursor-progress"
                         onClick={getAddButtonClickHandler(item)}
                         disabled={isLoading}
                       >
-                        +
+                        <GrAdd className="h-6 text-gray-400 group-hover:text-gray-300 transition-colors" />
                       </button>
                     </li>
                   ))}
@@ -76,8 +91,6 @@ export function ItemsPage() {
               </li>
             ))}
           </ul>
-        ) : (
-          <p>No items</p>
         )}
       </QueryContainer>
     </>

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  html {
+    font-family: "Quicksand", system-ui, sans-serif;
+    font-weight: 500;
+  }
+}
+
 @layer components {
   .card {
     @apply bg-white shadow-md rounded-xl p-4;

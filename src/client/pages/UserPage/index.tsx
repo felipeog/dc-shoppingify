@@ -1,5 +1,6 @@
 import { User } from "@wasp/auth/types";
 import logout from "@wasp/auth/logout";
+import { GrLogout } from "react-icons/gr";
 
 type TUserPageProps = {
   user: User;
@@ -8,12 +9,17 @@ type TUserPageProps = {
 export function UserPage(props: TUserPageProps) {
   return (
     <>
-      <ul>
-        <li>Username: {props.user.username}</li>
-        <li>Since: {props.user.createdAt.toLocaleDateString()}</li>
-      </ul>
+      <p>
+        <strong>{props.user.username}</strong>, member since{" "}
+        <strong>{props.user.createdAt.toLocaleDateString()}</strong>.
+      </p>
 
-      <button onClick={logout}>Logout</button>
+      <button
+        className="flex gap-4 items-center mt-12 border px-4 py-2 rounded"
+        onClick={logout}
+      >
+        Logout <GrLogout />
+      </button>
     </>
   );
 }

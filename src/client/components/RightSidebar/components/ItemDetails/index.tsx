@@ -3,9 +3,11 @@ import { ERightSidebar } from "../../../../types";
 import { LinkButton } from "../../../LinkButton";
 import { useAppState } from "../../../../state";
 import { useCreateListItem } from "../../../../hooks/useCreateListItem";
+import { useDeleteItem } from "../../../../hooks/useDeleteItem";
 
 export function ItemDetails() {
-  const { createListItem, isLoading } = useCreateListItem();
+  const { createListItem, isLoading: isCreating } = useCreateListItem();
+  const { deleteItem, isLoading: isDeleting } = useDeleteItem();
   const state = useAppState();
 
   const item = state.selectedRightSidebarItemDetails.value;
@@ -13,6 +15,10 @@ export function ItemDetails() {
   function handleBackButtonClick() {
     state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
     state.selectedRightSidebarItemDetails.value = null;
+  }
+
+  function handleDeleteButtonClick() {
+    item?.id && deleteItem(item.id);
   }
 
   function handleAddToListButtonClick() {
@@ -57,8 +63,10 @@ export function ItemDetails() {
       </div>
 
       <div className="flex gap-8 justify-center items-center h-[130px] bg-white border-t border-gray-100">
-        <LinkButton disabled>delete</LinkButton>
-        <Button onClick={handleAddToListButtonClick} isLoading={isLoading}>
+        <LinkButton onClick={handleDeleteButtonClick} isLoading={isDeleting}>
+          delete
+        </LinkButton>
+        <Button onClick={handleAddToListButtonClick} isLoading={isCreating}>
           Add to list
         </Button>
       </div>

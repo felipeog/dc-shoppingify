@@ -4,7 +4,7 @@ import { useAppState } from "../state";
 import { useState } from "react";
 import createListItemAction from "@wasp/actions/createListItem";
 
-export function useCreateListItems() {
+export function useCreateListItem() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error>();
   const state = useAppState();

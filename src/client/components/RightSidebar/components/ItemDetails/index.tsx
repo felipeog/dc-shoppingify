@@ -2,10 +2,10 @@ import { Button } from "../../../Button";
 import { ERightSidebar } from "../../../../types";
 import { LinkButton } from "../../../LinkButton";
 import { useAppState } from "../../../../state";
-import { useCreateListItems } from "../../../../hooks/useCreateListItems";
+import { useCreateListItem } from "../../../../hooks/useCreateListItem";
 
 export function ItemDetails() {
-  const { createListItem, isLoading } = useCreateListItems();
+  const { createListItem, isLoading } = useCreateListItem();
   const state = useAppState();
 
   const item = state.selectedRightSidebarItemDetails.value;

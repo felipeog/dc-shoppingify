@@ -3,14 +3,14 @@ import { GrAdd } from "react-icons/gr";
 import { QueryContainer } from "../../components/QueryContainer";
 import { TItemWithCategory } from "../../types";
 import { useAppState } from "../../state";
-import { useCreateListItems } from "../../hooks/useCreateListItems";
+import { useCreateListItem } from "../../hooks/useCreateListItem";
 import { useQuery } from "@wasp/queries";
 import getItemsByCategory from "@wasp/queries/getItemsByCategory";
 
 export function ItemsPage() {
   const state = useAppState();
   const itemsByCategoryResult = useQuery(getItemsByCategory);
-  const { createListItem, isLoading } = useCreateListItems();
+  const { createListItem, isLoading } = useCreateListItem();
 
   function getDetailsButtonClickHandler(item: TItemWithCategory) {
     return () => {

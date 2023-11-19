@@ -1,4 +1,6 @@
+import { Button } from "../../../Button";
 import { ERightSidebar } from "../../../../types";
+import { LinkButton } from "../../../LinkButton";
 import { useAppState } from "../../../../state";
 import { useCreateListItems } from "../../../../hooks/useCreateListItems";
 
@@ -54,13 +56,11 @@ export function ItemDetails() {
         </dl>
       </div>
 
-      <div className="flex gap-2 justify-center items-center h-[130px] bg-white border-t border-gray-100">
-        <button className="cursor-not-allowed" disabled>
-          Delete
-        </button>
-        <button onClick={handleAddToListButtonClick} disabled={isLoading}>
+      <div className="flex gap-8 justify-center items-center h-[130px] bg-white border-t border-gray-100">
+        <LinkButton disabled>delete</LinkButton>
+        <Button onClick={handleAddToListButtonClick} isLoading={isLoading}>
           Add to list
-        </button>
+        </Button>
       </div>
     </section>
   );

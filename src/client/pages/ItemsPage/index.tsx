@@ -1,7 +1,7 @@
 import { ERightSidebar } from "../../types";
 import { GrAdd } from "react-icons/gr";
-import { Item } from "@wasp/entities";
 import { QueryContainer } from "../../components/QueryContainer";
+import { TItemWithCategory } from "../../types";
 import { toast } from "react-toastify";
 import { useAppState } from "../../state";
 import { useQuery } from "@wasp/queries";
@@ -14,14 +14,14 @@ export function ItemsPage() {
   const state = useAppState();
   const itemsByCategoryResult = useQuery(getItemsByCategory);
 
-  function getDetailsButtonClickHandler(item: Item) {
+  function getDetailsButtonClickHandler(item: TItemWithCategory) {
     return () => {
       state.selectedRightSidebarItemDetails.value = item;
       state.selectedRightSidebar.value = ERightSidebar.ITEM_DETAILS;
     };
   }
 
-  function getAddButtonClickHandler(item: Item) {
+  function getAddButtonClickHandler(item: TItemWithCategory) {
     return async () => {
       setIsLoading(true);
 
@@ -73,14 +73,18 @@ export function ItemsPage() {
                     >
                       <button
                         className="grow text-left px-4 py-3 hover:text-gray-500 transition-colors first-letter:capitalize"
-                        onClick={getDetailsButtonClickHandler(item)}
+                        onClick={getDetailsButtonClickHandler(
+                          item as TItemWithCategory
+                        )}
                       >
                         {item.name}
                       </button>
 
                       <button
                         className="group shrink-0 px-4 py-3 disabled:cursor-progress"
-                        onClick={getAddButtonClickHandler(item)}
+                        onClick={getAddButtonClickHandler(
+                          item as TItemWithCategory
+                        )}
                         disabled={isLoading}
                       >
                         <GrAdd className="h-6 text-gray-400 group-hover:text-gray-300 transition-colors" />

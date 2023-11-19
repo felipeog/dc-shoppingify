@@ -1,6 +1,6 @@
+import { GrLogout } from "react-icons/gr";
 import { User } from "@wasp/auth/types";
 import logout from "@wasp/auth/logout";
-import { GrLogout } from "react-icons/gr";
 
 type TUserPageProps = {
   user: User;

@@ -2,17 +2,15 @@ import { ERightSidebar } from "../../types";
 import { GrAdd } from "react-icons/gr";
 import { QueryContainer } from "../../components/QueryContainer";
 import { TItemWithCategory } from "../../types";
-import { toast } from "react-toastify";
 import { useAppState } from "../../state";
+import { useCreateListItems } from "../../hooks/useCreateListItems";
 import { useQuery } from "@wasp/queries";
-import { useState } from "react";
-import createListItem from "@wasp/actions/createListItem";
 import getItemsByCategory from "@wasp/queries/getItemsByCategory";
 
 export function ItemsPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const state = useAppState();
   const itemsByCategoryResult = useQuery(getItemsByCategory);
+  const { createListItem, isLoading } = useCreateListItems();
 
   function getDetailsButtonClickHandler(item: TItemWithCategory) {
     return () => {
@@ -22,23 +20,7 @@ export function ItemsPage() {
   }
 
   function getAddButtonClickHandler(item: TItemWithCategory) {
-    return async () => {
-      setIsLoading(true);
-
-      try {
-        await createListItem({
-          itemId: item.id,
-          itemsListId: state.ongoingItemsList.value.id,
-        });
-
-        state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
-      } catch (error: any) {
-        console.error(error);
-        toast.info(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    return () => createListItem(item.id);
   }
 
   const hasPopulatedCategories = Boolean(itemsByCategoryResult.data?.length);

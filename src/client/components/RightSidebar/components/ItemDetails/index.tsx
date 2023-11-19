@@ -1,13 +1,20 @@
 import { ERightSidebar } from "../../../../types";
 import { useAppState } from "../../../../state";
+import { useCreateListItems } from "../../../../hooks/useCreateListItems";
 
 export function ItemDetails() {
+  const { createListItem, isLoading } = useCreateListItems();
   const state = useAppState();
+
   const item = state.selectedRightSidebarItemDetails.value;
 
   function handleBackButtonClick() {
     state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
     state.selectedRightSidebarItemDetails.value = null;
+  }
+
+  function handleAddToListButtonClick() {
+    item?.id && createListItem(item.id);
   }
 
   return (
@@ -48,8 +55,12 @@ export function ItemDetails() {
       </div>
 
       <div className="flex gap-2 justify-center items-center h-[130px] bg-white border-t border-gray-100">
-        <button disabled>Delete</button>
-        <button disabled>Add to list</button>
+        <button className="cursor-not-allowed" disabled>
+          Delete
+        </button>
+        <button onClick={handleAddToListButtonClick} disabled={isLoading}>
+          Add to list
+        </button>
       </div>
     </section>
   );

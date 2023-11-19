@@ -1,17 +1,22 @@
-import { ERightSidebar, ERightSidebarItemsList } from "../../../../types";
+import { ERightSidebarItemsList } from "../../../../types";
+import { GrCheckmark } from "react-icons/gr";
 import { ListItem } from "@wasp/entities";
 import { useAppState } from "../../../../state";
 
 export function Editing(props: { listItems: ListItem[] }) {
   const state = useAppState();
 
-  function handleCreateButtonClick() {
-    state.selectedRightSidebar.value = ERightSidebar.ITEM_FORM;
+  function handleCompleteButton() {
+    state.selectedRightSidebarItemsList.value =
+      ERightSidebarItemsList.COMPLETING;
   }
 
   return (
     <div>
-      <button onClick={handleCreateButtonClick}>Create item</button>
+      <p>{state.ongoingItemsList.value.name}</p>
+      <button onClick={handleCompleteButton}>
+        <GrCheckmark />
+      </button>
 
       <ul>
         {Boolean(props.listItems.length) ? (
@@ -19,7 +24,7 @@ export function Editing(props: { listItems: ListItem[] }) {
             <pre key={listItem.id}>{JSON.stringify(listItem, null, 2)}</pre>
           ))
         ) : (
-          <p>No items to edit</p>
+          <p>No items</p>
         )}
       </ul>
     </div>

@@ -1,20 +1,16 @@
+import { CategorySelect, TCategorySelectOption } from "./CategorySelect";
 import { ERightSidebar } from "../../../../types";
 import { toast } from "react-toastify";
 import { useAppState } from "../../../../state";
-import { useQuery } from "@wasp/queries";
 import { useState, FormEvent } from "react";
-import createCategory from "@wasp/actions/createCategory";
 import createItem from "@wasp/actions/createItem";
-import getCategories from "@wasp/queries/getCategories";
-
-// TODO: style
-// TODO: complete form
 
 export function ItemForm() {
   const [isCreatingItem, setIsCreatingItem] = useState(false);
   const [isCreatingCategory, setIsCreatingCategory] = useState(false);
+  const [newCategoryValue, setNewCategoryValue] =
+    useState<TCategorySelectOption>(null);
   const state = useAppState();
-  const categoriesResult = useQuery(getCategories);
 
   function handleCancelButtonClick() {
     state.selectedRightSidebar.value = ERightSidebar.ITEMS_LIST;
@@ -28,11 +24,19 @@ export function ItemForm() {
     try {
       const target = event.target as HTMLFormElement;
       const name = target.itemName.value;
+      const note = target.note.value;
+      const image = target.image.value;
       const categoryId = target.categoryId.value;
 
-      await createItem({ name, categoryId });
+      await createItem({
+        name,
+        note,
+        image,
+        categoryId,
+      });
 
       target.reset();
+      setNewCategoryValue(null);
     } catch (error: any) {
       console.error(error);
       toast.info(error.message);
@@ -41,35 +45,11 @@ export function ItemForm() {
     }
   }
 
-  async function handleCategoryFormSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setIsCreatingCategory(true);
-
-    try {
-      const target = event.target as HTMLFormElement;
-      const name = target.categoryName.value;
-
-      await createCategory({ name });
-
-      target.reset();
-    } catch (error: any) {
-      console.error(error);
-      toast.info(error.message);
-    } finally {
-      setIsCreatingCategory(false);
-    }
-  }
-
-  const isLoading =
-    isCreatingItem || isCreatingCategory || categoriesResult.isLoading;
+  const isLoading = isCreatingItem || isCreatingCategory;
 
   // TODO: improve render
   return (
     <section className="bg-white flex-shrink-0 w-96 overflow-x-hidden overflow-y-auto">
-      {isLoading && <p>Loading...</p>}
-      {categoriesResult.error && <p>Error: {categoriesResult.error.message}</p>}
-
       <form onSubmit={handleItemFormSubmit}>
         <label>
           Name
@@ -78,45 +58,53 @@ export function ItemForm() {
             name="itemName"
             required
             placeholder="Enter a name"
+            disabled={isLoading}
           />
         </label>
 
-        <label>
-          Category
-          <select name="categoryId" required>
-            <option value="">Select a category</option>
+        <br />
 
-            {Boolean(categoriesResult.data?.length) &&
-              categoriesResult.data?.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-          </select>
+        <label>
+          Note (optional)
+          <input
+            type="text"
+            name="note"
+            placeholder="Enter a note"
+            disabled={isLoading}
+          />
         </label>
 
-        <button onClick={handleCancelButtonClick}>Cancel</button>
-        <button type="submit">Create</button>
+        <br />
+
+        <label>
+          Image (optional)
+          <input
+            type="text"
+            name="image"
+            placeholder="Enter a URL"
+            disabled={isLoading}
+          />
+        </label>
+
+        <br />
+
+        <CategorySelect
+          isLoading={isLoading}
+          setIsLoading={setIsCreatingCategory}
+          value={newCategoryValue}
+          setValue={setNewCategoryValue}
+          name="categoryId"
+        />
+
+        <br />
+
+        <button onClick={handleCancelButtonClick} disabled={isLoading}>
+          Cancel
+        </button>
+        <button type="submit" disabled={isLoading}>
+          Create
+        </button>
       </form>
-
-      {/* TODO: create category select input that's able to create categories */}
-      <details>
-        <summary>Create category</summary>
-
-        <form onSubmit={handleCategoryFormSubmit}>
-          <label>
-            Name
-            <input
-              type="text"
-              name="categoryName"
-              required
-              placeholder="Enter a name"
-            />
-          </label>
-
-          <button type="submit">Create</button>
-        </form>
-      </details>
     </section>
   );
 }
